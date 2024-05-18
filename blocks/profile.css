@@ -10,6 +10,8 @@
   border-radius: 50%;
   object-fit: cover;
   margin-right: 24px;
+  left: 8px;
+  position: relative;
 }
 
 .profile__title {
@@ -22,6 +24,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 300px;
 }
 
 .profile__description {
@@ -34,6 +37,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 300px;
 }
 
 .profile__info {
@@ -41,7 +45,7 @@
   grid-template-areas:
     "title button"
     "description description";
-  grid-template-columns: minmax(auto, 373px) auto;
+  grid-template-columns: minmax(auto, 300px) auto;
 }
 
 .profile__edit-button {
@@ -60,16 +64,22 @@
 }
 
 .profile__add-button {
-  background: transparent url(../images/Add_Button_help.svg) center no-repeat;
+  background: transparent url(../images/yeah.svg);
+  background-repeat: no-repeat;
+  background-position: center;
   width: 150px;
   height: 50px;
+  border: 1px solid white;
   margin-left: auto;
-  border: none;
+  margin-right: auto;
   cursor: pointer;
+  padding: 0;
 }
 
 .profile__add-button:hover {
-  background: transparent url(../images/Add_Button_hover.svg) center no-repeat;
+  border-color: gray;
+  max-width: 282px;
+  max-height: 50px;
 }
 
 @media screen and (min-width: 320px) and (max-width: 480px) {
@@ -82,7 +92,6 @@
   }
 
   .profile__title {
-    text-wrap: nowrap;
     font-size: 22px;
     line-height: 26.5px;
     margin-top: 10px;
@@ -105,8 +114,7 @@
   .profile__add-button {
     width: 282px;
     height: 50px;
-    margin-top: 36px;
-    margin-left: 0;
+    margin: 36px 0 0;
   }
 
   .profile__edit-button {
@@ -130,10 +138,12 @@
 
   .profile__add-button {
     margin: 0;
-    padding: 0;
+    width: 150px;
+    border: transparent url(../images/Add_Button_help.svg) center no-repeat;
   }
 
   .profile__edit-button {
+    position: relative;
     margin: 0;
   }
 }

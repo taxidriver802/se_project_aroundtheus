@@ -13,12 +13,15 @@
   <body class="page">
     <div class="page__content">
       <header class="header page__section">
-        <img
-          src="images/Header.svg"
-          alt="Around the U.S. logo"
-          class="header__image"
-        />
+        <div class="header__image-container">
+          <img
+            src="images/headernew.svg"
+            alt="Around the U.S. logo"
+            class="header__image"
+          />
+        </div>
       </header>
+      <div class="header__line"></div>
       <main class="content">
         <section class="profile page__section">
           <img
@@ -31,7 +34,10 @@
             <button type="button" class="profile__edit-button"></button>
             <p class="profile__description">Explorer</p>
           </div>
-          <button type="button" class="profile__add-button"></button>
+          <button
+            type="button"
+            class="profile__add-button profile__edit-button-vector"
+          ></button>
         </section>
 
         <section class="cards page__section">

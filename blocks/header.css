@@ -1,15 +1,41 @@
 .header {
   margin-top: 45px;
   display: flex;
-  justify-content: center;
+  width: 880px;
 }
 
 .header__image {
-  max-width: 880%;
+  justify-content: start;
 }
 
-@media screen and (min-width: 320px) and (max-width: 879px) {
-  .header__image {
-    max-width: 90%;
+.header__image-container {
+  max-width: 880px;
+}
+
+.header__line {
+  width: 100%;
+  height: 1px;
+  background-color: #545454;
+}
+
+@media screen and (min-width: 598px) and (max-width: 879px) {
+  .header {
+    width: 581px;
+  }
+
+  .header__image-container {
+    max-width: 581px;
+    justify-content: start;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 597px) {
+  .header {
+    width: 320px;
+  }
+
+  .header__image-container {
+    max-width: 581px;
+    justify-content: start;
   }
 }
