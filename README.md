@@ -16,3 +16,7 @@ program at TripleTen. It was created using HTML and CSS, based on a figma design
   ## Deployed URL
 
   https://taxidriver802.github.io/se_project_aroundtheus/
+
+  ## Project video
+
+https://drive.google.com/file/d/1RStlfLZkQntKlQUO1t1bn2X5NH9vD11o/view?usp=drive_link
