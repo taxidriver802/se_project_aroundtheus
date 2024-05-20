@@ -122,14 +122,16 @@
 
 @media screen and (min-width: 481px) and (max-width: 880px) {
   .profile__title {
-    max-width: 100%;
+    max-width: 300px;
+    font-size: 32px;
+    line-height: 37px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
   }
 
   .profile__info {
-    grid-template-columns: minmax(auto, 400px) auto;
+    grid-template-columns: minmax(auto, 300px) auto;
   }
 
   .profile__description {
@@ -138,6 +140,7 @@
 
   .profile__add-button {
     margin: 0 0 0 auto;
+    width: 150px;
   }
 
   .profile__edit-button {

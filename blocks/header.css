@@ -4,6 +4,7 @@
   align-items: start;
   width: 880px;
   height: 74px;
+  border-bottom: 1px solid #545454;
 }
 
 .header__image {
@@ -16,18 +17,13 @@
   background-color: rgba(84, 84, 84, 0.5);
 }
 
-@media screen and (min-width: 598px) and (max-width: 879px) {
+@media screen and (min-width: 320px) and (max-width: 480px) {
   .header {
-    width: 581px;
-  }
-}
-
-@media screen and (min-width: 320px) and (max-width: 597px) {
-  .header {
-    width: 320px;
+    width: 100%;
   }
 
   .header__image {
+    margin-left: 27px;
     width: 126px;
     height: 24px;
   }
