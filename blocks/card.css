@@ -16,7 +16,6 @@
   background-color: white;
   color: black;
   padding: 25px 20px;
-
   justify-content: space-between;
   align-items: center;
   border-radius: 0 0 10px 10px;
@@ -42,5 +41,5 @@
 }
 
 .card__like-button:hover {
-  background: transparent url(../images/Like_active.svg) center no-repeat;
+  opacity: 0.5;
 }

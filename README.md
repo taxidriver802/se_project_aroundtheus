@@ -19,4 +19,4 @@ program at TripleTen. It was created using HTML and CSS, based on a figma design
 
   ## Project video
 
-https://drive.google.com/file/d/1RStlfLZkQntKlQUO1t1bn2X5NH9vD11o/view?usp=drive_link
+https://drive.google.com/file/d/1RStlfLZkQntKlQUO1t1bn2X5NH9vD11o/view?usp=sharing

@@ -1,31 +1,24 @@
 .header {
   margin-top: 45px;
   display: flex;
+  align-items: start;
   width: 880px;
+  height: 74px;
 }
 
 .header__image {
   justify-content: start;
 }
 
-.header__image-container {
-  max-width: 880px;
-}
-
 .header__line {
   width: 100%;
   height: 1px;
-  background-color: #545454;
+  background-color: rgba(84, 84, 84, 0.5);
 }
 
 @media screen and (min-width: 598px) and (max-width: 879px) {
   .header {
     width: 581px;
-  }
-
-  .header__image-container {
-    max-width: 581px;
-    justify-content: start;
   }
 }
 
@@ -34,8 +27,8 @@
     width: 320px;
   }
 
-  .header__image-container {
-    max-width: 581px;
-    justify-content: start;
+  .header__image {
+    width: 126px;
+    height: 24px;
   }
 }
