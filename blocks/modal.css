@@ -5,12 +5,12 @@
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  display: none;
   z-index: 999;
-  display: flex;
   padding: 0 19px 0;
 }
 
-.modal_opened {
+.modal__opened {
   display: flex;
 }
 
@@ -18,7 +18,7 @@
   color: black;
   max-width: 330px;
   max-height: 23px;
-  font-family: Inter Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
   margin: 0;
   font-weight: 900;
   font-size: 24px;
@@ -73,11 +73,11 @@
   font-family: Inter, Arial, sans-serif;
   border-radius: 2px;
   margin: 48px auto 0;
-  font-family: "Inter" Arial, sans-serif;
   font-weight: 400;
   font-size: 18px;
   line-height: 21.78px;
   justify-content: center;
+  cursor: pointer;
 }
 
 .modal__close {
@@ -93,6 +93,10 @@
   cursor: pointer;
   width: 40px;
   height: 40px;
+}
+
+.modal__close:hover {
+  opacity: 0.5;
 }
 
 @media screen and (max-width: 650px) {
