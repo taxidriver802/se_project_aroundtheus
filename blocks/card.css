@@ -6,8 +6,8 @@
 }
 
 .card__image {
-  max-width: 282px;
-  max-height: 282px;
+  width: 282px;
+  height: 282px;
   border-radius: 10px 10px 0 0;
 }
 
@@ -21,7 +21,7 @@
   border-radius: 0 0 10px 10px;
 }
 
-.card__description-title {
+.card__title {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
