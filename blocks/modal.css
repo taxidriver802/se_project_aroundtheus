@@ -10,7 +10,7 @@
   padding: 0 19px 0;
 }
 
-.modal__opened {
+.modal_opened {
   display: flex;
 }
 
@@ -37,21 +37,7 @@
   flex-direction: column;
 }
 
-.modal__title {
-  border-bottom: 1px solid black;
-  border-top: none;
-  border-right: none;
-  border-left: none;
-  width: 100%;
-  height: 27.26px;
-  margin: 48px auto 0;
-  font-family: "inter" Arial, sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 16.94px;
-}
-
-.modal__description {
+.modal__input {
   border-bottom: 1px solid black;
   border-top: none;
   border-right: none;
@@ -77,6 +63,9 @@
   font-size: 18px;
   line-height: 21.78px;
   justify-content: center;
+}
+
+.modal__button:hover {
   cursor: pointer;
 }
 
