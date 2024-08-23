@@ -1,8 +1,10 @@
 .card {
   display: flex;
+  position: relative;
   flex-direction: column;
   border-radius: 10px;
   list-style-type: none;
+  overflow: hidden;
 }
 
 .card__image {
@@ -49,4 +51,21 @@
 
 .card__like-button:hover {
   opacity: 0.5;
+}
+
+.card__delete-button {
+  width: 18px;
+  height: 19.3px;
+  background: transparent url("../images/Trash.svg") center no-repeat;
+  border: none;
+  position: absolute;
+  margin: 0;
+  top: 15px;
+  right: 15px;
+  background-size: 18px 19.3px;
+  cursor: pointer;
+}
+
+.card__delete-button:hover {
+  opacity: 60%;
 }

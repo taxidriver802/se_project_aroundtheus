@@ -71,10 +71,6 @@
       </div>
     </div>
 
-    <!-- Edit Modal -->
-
-    <!-- Add Card Modal -->
-
     <div class="modal" id="card-add-modal">
       <div class="modal__container">
         <button class="modal__close" id="card-close-modal"></button>
@@ -99,9 +95,23 @@
 
     <!-- Add Card Modal -->
 
-    <template id="card-template">
+    <div class="popup" id="popup-image">
+      <div class="popup__content">
+        <button class="popup__close" type="button"></button>
+        <img src="" alt="" class="popup__image" />
+        <p class="popup__caption"></p>
+      </div>
+    </div>
+
+    <template class="card__template" id="card-template">
       <li class="card">
         <img src="" alt="" class="card__image" />
+        <button
+          type="button"
+          class="card__delete-button"
+          id="card-delete-button"
+        ></button>
+
         <div class="card__description">
           <h2 class="card__title"></h2>
           <button type="button" class="card__like-button"></button>
