@@ -42,12 +42,28 @@ const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
+const addNewCardButton = document.querySelector(".profile__add-button");
+const cardAddModal = document.querySelector("#card-add-modal");
+const cardCloseModal = document.querySelector("#card-close-modal");
+const addCardForm = document.querySelector("#add-card-form");
 /*---------------------------------------------------------------------*/
 /*                             Functions                               */
 /*---------------------------------------------------------------------*/
 
 function closePopup() {
   profileEditModal.classList.remove("modal_opened");
+}
+
+function openPopup() {
+  profileEditModal.classList.add("modal_opened");
+}
+
+function closeCardPopup() {
+  cardAddModal.classList.remove("modal_opened");
+}
+
+function openCardPopup() {
+  cardAddModal.classList.add("modal_opened");
 }
 
 function getCardElement(cardData) {
@@ -75,20 +91,46 @@ function handleProfileEditSubmit(e) {
   profileDescription.textContent = profileDescriptionInput.value;
   closePopup();
 }
+
+function handleAddCardSubmit(e) {
+  e.preventDefault();
+  closeCardPopup();
+}
+
 /*---------------------------------------------------------------------*/
 /*                          Event Listeners                            */
 /*---------------------------------------------------------------------*/
+
+/* add profile edit button */
 
 profileEditButton.addEventListener("click", () => {
   profileTitleInput.value = profileTitle.textContent;
   profileDescriptionInput.value = profileDescription.textContent;
 
-  profileEditModal.classList.add("modal_opened");
+  openPopup();
 });
+
+/* Remove profile edit button */
 
 profileCloseModal.addEventListener("click", closePopup);
 
+/* edit submit */
+
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
+
+/* add submit */
+
+addCardForm.addEventListener("submit", handleAddCardSubmit);
+
+/* add new card button */
+
+addNewCardButton.addEventListener("click", openCardPopup);
+
+/* remove new card button */
+
+cardCloseModal.addEventListener("click", closeCardPopup);
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
