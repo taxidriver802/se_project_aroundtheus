@@ -119,3 +119,9 @@
     font-size: 18px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .modal__image_container {
+    padding-top: 90px;
+  }
+}
