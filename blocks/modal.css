@@ -5,13 +5,18 @@
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: none;
   z-index: 999;
+  display: flex;
   padding: 0 19px 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s linear, opacity 0.5s linear;
 }
 
 .modal_opened {
-  display: flex;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear, opacity 0.5s linear;
 }
 
 .modal__header {
