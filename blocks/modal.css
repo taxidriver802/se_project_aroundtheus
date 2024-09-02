@@ -113,12 +113,12 @@
   }
 
   .modal {
-    padding: 36px 45px;
+    padding: 36px 22px;
   }
 
   .modal__close {
     top: -45px;
-    right: -30px;
+    margin-right: 55px;
     height: 26px;
     width: 26px;
   }
