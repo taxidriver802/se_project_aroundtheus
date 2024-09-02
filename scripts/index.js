@@ -56,12 +56,10 @@ const cardCloseModal = document.querySelector("#card-close-modal");
 const addCardForm = document.querySelector("#add-card-form");
 const addCardFormElement = cardAddModal.querySelector(".modal__form");
 
-const cardTitleInput = addCardFormElement.querySelector(
+let cardTitleInput = addCardFormElement.querySelector(
   ".modal__input_type_title"
 );
-const cardLinkInput = addCardFormElement.querySelector(
-  ".modal__input_type_link"
-);
+let cardLinkInput = addCardFormElement.querySelector(".modal__input_type_link");
 const modalImageElement = popupImageModal.querySelector(".popup__image");
 
 /*---------------------------------------------------------------------*/
@@ -175,7 +173,11 @@ addCardForm.addEventListener("submit", handleAddCardSubmit);
 
 /* add new card button */
 
-addNewCardButton.addEventListener("click", () => openModal(cardAddModal));
+addNewCardButton.addEventListener("click", () => {
+  cardTitleInput.value = "";
+  cardLinkInput.value = "";
+  openModal(cardAddModal);
+});
 
 /* remove new card button */
 

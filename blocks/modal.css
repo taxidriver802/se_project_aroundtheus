@@ -50,7 +50,7 @@
   width: 100%;
   height: 27.26px;
   margin: 48px auto 0;
-  font-family: "inter" Arial, sans-serif;
+  font-family: inter, Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 16.94px;
@@ -108,20 +108,22 @@
 }
 
 @media screen and (max-width: 650px) {
+  .modal__image_container {
+    padding-top: 90px;
+  }
+
+  .modal {
+    padding: 36px 45px;
+  }
+
   .modal__close {
     top: -45px;
-    right: 5px;
+    right: -30px;
     height: 26px;
     width: 26px;
   }
 
   .modal__header {
     font-size: 18px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .modal__image_container {
-    padding-top: 90px;
   }
 }

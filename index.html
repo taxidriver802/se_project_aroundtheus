@@ -106,22 +106,23 @@
         <p class="popup__caption"></p>
       </div>
     </div>
+    <div class="card__template">
+      <template id="card-template">
+        <li class="card">
+          <img src="" alt="" class="card__image" />
+          <button
+            type="button"
+            class="card__delete-button"
+            id="card-delete-button"
+          ></button>
 
-    <template id="card-template">
-      <li class="card">
-        <img src="" alt="" class="card__image" />
-        <button
-          type="button"
-          class="card__delete-button"
-          id="card-delete-button"
-        ></button>
-
-        <div class="card__description">
-          <h2 class="card__title"></h2>
-          <button type="button" class="card__like-button"></button>
-        </div>
-      </li>
-    </template>
+          <div class="card__description">
+            <h2 class="card__title"></h2>
+            <button type="button" class="card__like-button"></button>
+          </div>
+        </li>
+      </template>
+    </div>
 
     <script src="./scripts/index.js" defer></script>
   </body>
