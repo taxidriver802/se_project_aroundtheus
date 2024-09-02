@@ -90,7 +90,7 @@
 
 .modal__close {
   border: none;
-  background-image: url("../images/close_icon.svg");
+  background-image: url("../images/close__icon.svg");
   background-position: center;
   background-repeat: no-repeat;
   position: absolute;
