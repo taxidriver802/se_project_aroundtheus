@@ -37,7 +37,7 @@ const popupImageModal = document.querySelector("#popup-image");
 const popupImageCloseButton = document.querySelector(
   "#popup-image-close-button"
 );
-const popupImageCaption = document.querySelector(".popup__caption");
+const popupImageCaption = document.querySelector(".modal__caption");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const profileTitleInput = document.querySelector("#profile-title-input");
@@ -60,7 +60,7 @@ let cardTitleInput = addCardFormElement.querySelector(
   ".modal__input_type_title"
 );
 let cardLinkInput = addCardFormElement.querySelector(".modal__input_type_link");
-const modalImageElement = popupImageModal.querySelector(".popup__image");
+const modalImageElement = popupImageModal.querySelector(".modal__image");
 
 /*---------------------------------------------------------------------*/
 /*                             Functions                               */

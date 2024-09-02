@@ -1,4 +1,4 @@
-.card {
+.card__template {
   display: flex;
   position: relative;
   flex-direction: column;

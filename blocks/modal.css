@@ -42,6 +42,17 @@
   flex-direction: column;
 }
 
+.modal__content {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  position: relative;
+  top: 50px;
+  right: auto;
+  left: auto;
+  bottom: 0;
+}
+
 .modal__input {
   border-bottom: 1px solid black;
   border-top: none;
@@ -54,6 +65,25 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 16.94px;
+}
+
+.modal__image {
+  position: relative;
+  max-height: 75vh;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 75vw;
+  top: auto;
+}
+
+.modal__caption {
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.52px;
+  margin: 10px 0 0;
+  width: 100%;
+  height: 12px;
 }
 
 .modal__image_container {
