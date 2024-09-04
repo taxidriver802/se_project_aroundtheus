@@ -112,8 +112,6 @@ function getCardElement(cardData) {
     openModal(popupImageModal);
   });
 
-  popupImageCaption.textContent = cardData.name;
-
   return cardElement;
 }
 
