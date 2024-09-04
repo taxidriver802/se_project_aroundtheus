@@ -138,9 +138,9 @@
 }
 
 @media screen and (max-width: 650px) {
-  .modal__image_container {
-    padding-top: 90px;
-  }
+  /*   .modal__image {
+    margin: 0 45px;
+  } */
 
   .modal__container {
     padding-left: 22px;
@@ -153,12 +153,12 @@
   }
 
   .modal {
-    padding: 36px 22px;
+    padding: 75px 22px;
   }
 
   .modal__close {
-    top: -45px;
-    margin-right: 55px;
+    top: -30px;
+    margin-right: 17px;
     height: 26px;
     width: 26px;
   }
