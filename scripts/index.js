@@ -135,6 +135,8 @@ function handleAddCardSubmit(e) {
   const name = cardTitleInput.value;
   const link = cardLinkInput.value;
   renderCard({ name, link }, cardListEl);
+  cardTitleInput.value = "";
+  cardLinkInput.value = "";
   closeModal(cardAddModal);
 }
 
@@ -172,8 +174,6 @@ addCardForm.addEventListener("submit", handleAddCardSubmit);
 /* add new card button */
 
 addNewCardButton.addEventListener("click", () => {
-  cardTitleInput.value = "";
-  cardLinkInput.value = "";
   openModal(cardAddModal);
 });
 

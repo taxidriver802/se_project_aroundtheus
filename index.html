@@ -51,7 +51,10 @@
 
     <div class="modal" id="profile-edit-modal">
       <div class="modal__container">
-        <button class="modal__close" id="profile-close-modal-button"></button>
+        <button
+          class="modal__close modal__close-form"
+          id="profile-close-modal-button"
+        ></button>
         <h2 class="modal__header">Edit profile</h2>
         <form class="modal__form">
           <input
@@ -73,7 +76,10 @@
 
     <div class="modal" id="card-add-modal">
       <div class="modal__container">
-        <button class="modal__close" id="card-close-modal"></button>
+        <button
+          class="modal__close modal__close-form"
+          id="card-close-modal"
+        ></button>
         <h2 class="modal__header">New Place</h2>
         <form class="modal__form" id="add-card-form">
           <input
@@ -88,15 +94,15 @@
             placeholder="Image Link"
             name="link"
           />
-          <button class="modal__submit" type="submit">Save</button>
+          <button class="modal__submit" type="submit">Create</button>
         </form>
       </div>
     </div>
 
     <!-- Add Card Modal -->
 
-    <div class="modal modal__content" id="popup-image">
-      <div class="modal__content-container">
+    <div class="modal" id="popup-image">
+      <div class="modal__content modal__content-container">
         <button
           class="modal__close"
           id="popup-image-close-button"
