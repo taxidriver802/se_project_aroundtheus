@@ -61,6 +61,8 @@ let cardTitleInput = addCardFormElement.querySelector(
 );
 let cardLinkInput = addCardFormElement.querySelector(".modal__input_type_link");
 const modalImageElement = popupImageModal.querySelector(".modal__image");
+const modalOpened = document.querySelector(".modal_opened");
+const modals = document.querySelector(".modal");
 
 /*---------------------------------------------------------------------*/
 /*                             Functions                               */
@@ -184,3 +186,32 @@ cardCloseModal.addEventListener("click", () => closeModal(cardAddModal));
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
+
+//close modal when click outside
+
+// i would love feedback on this part of the code as i wasnt able to figure it out.
+
+/* document.addEventListener("click", (event) => {
+  const modalsClose = document.querySelector(".modal__form");
+  if (
+    document.querySelector(".modal_opened") &&
+    !modalsClose.contains(event.target)
+  ) {
+    console.log("hello");
+      closeModal(popupImageModal);
+      closeModal(profileEditModal);
+      closeModal(cardAddModal);
+  }
+}); */
+
+// close modal on esc key press
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    if (openModal) {
+      closeModal(popupImageModal);
+      closeModal(profileEditModal);
+      closeModal(cardAddModal);
+    }
+  }
+});

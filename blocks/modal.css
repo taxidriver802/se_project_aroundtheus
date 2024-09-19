@@ -68,6 +68,18 @@
   line-height: 16.94px;
 }
 
+.modal__input_type_error {
+  border-color: red;
+}
+
+.modal__error_visible {
+  color: red;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.52px;
+}
+
 .modal__image {
   position: relative;
   max-height: 75vh;
@@ -112,11 +124,17 @@
 
 .modal__submit:hover {
   cursor: pointer;
+  opacity: 0.75;
 }
 
 .modal__button:hover {
   cursor: pointer;
   opacity: 0.8;
+}
+
+.modal__button_disabled:disabled {
+  opacity: 0.2;
+  cursor: default;
 }
 
 .modal__close {

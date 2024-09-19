@@ -62,13 +62,24 @@
             class="modal__title modal__input"
             id="profile-title-input"
             placeholder="Name"
+            minlength="2"
+            maxlength="40"
+            required
           />
+          <span class="modal__error" id="profile-title-input-error"></span>
           <input
             type="text"
             class="modal__description modal__input"
             id="profile-description-input"
             placeholder="Description"
+            minlength="2"
+            maxlength="200"
+            required
           />
+          <span
+            class="modal__error"
+            id="profile-description-input-error"
+          ></span>
           <button class="modal__submit" type="submit">Save</button>
         </form>
       </div>
@@ -81,20 +92,36 @@
           id="card-close-modal"
         ></button>
         <h2 class="modal__header">New Place</h2>
-        <form class="modal__form" id="add-card-form">
+        <form class="modal__form js-modal-form" id="add-card-form">
           <input
             type="text"
             class="modal__input modal__input_type_title"
             placeholder="Title"
             name="title"
+            id="modal-input-type-title"
+            minlength="2"
+            maxlength="200"
+            required
           />
+          <span class="modal__error" id="modal-input-type-title-error"></span>
           <input
             type="text"
             class="modal__input modal__input_type_link"
             placeholder="Image Link"
             name="link"
+            id="modal-input-type-link"
+            minlength="2"
+            maxlength="200"
+            required
           />
-          <button class="modal__submit" type="submit">Create</button>
+          <span class="modal__error" id="modal-input-type-link-error"></span>
+          <button
+            class="modal__submit modal__button_disabled"
+            type="submit"
+            disabled
+          >
+            Create
+          </button>
         </form>
       </div>
     </div>
@@ -108,7 +135,7 @@
           id="popup-image-close-button"
           type="button"
         ></button>
-        <img src="" alt="" class="modal__image" />
+        <img src="" alt="" class="modal__image mo" />
         <p class="modal__caption"></p>
       </div>
     </div>
@@ -132,5 +159,6 @@
     </div>
 
     <script src="./scripts/index.js" defer></script>
+    <script src="./scripts/validation.js" defer></script>
   </body>
 </html>
