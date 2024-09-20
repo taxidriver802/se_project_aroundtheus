@@ -73,11 +73,15 @@ const imageModal = [popupImageModal];
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
   document.removeEventListener("keydown", closeEscapeKey);
+  document.removeEventListener("click", closeOutsideClick);
+  document.removeEventListener("click", closeImageOutsideClick);
 }
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
   document.addEventListener("keydown", closeEscapeKey);
+  document.addEventListener("click", closeOutsideClick);
+  document.addEventListener("click", closeImageOutsideClick);
 }
 
 function getCardElement(cardData) {
@@ -126,6 +130,44 @@ function getCardElement(cardData) {
 function renderCard(cardData) {
   const cardElement = getCardElement(cardData);
   cardListEl.prepend(cardElement);
+}
+
+function closeEscapeKey(event) {
+  if (event.key === "Escape") {
+    modalsEsc.forEach((modal) => {
+      if (modal.classList.contains("modal_opened")) {
+        closeModal(modal);
+      }
+    });
+  }
+}
+
+function closeOutsideClick(event) {
+  modals.forEach((modal) => {
+    const isClickInsideModal = Array.from(modalContainer).some((modal) =>
+      modal.contains(event.target)
+    );
+    if (
+      openModal &&
+      modal.classList.contains("modal_opened") &&
+      !isClickInsideModal
+    ) {
+      closeModal(modal);
+    }
+  });
+}
+
+function closeImageOutsideClick(event) {
+  imageModal.forEach((modal) => {
+    const modalImageClick = modalImageElement.contains(event.target);
+    if (
+      openModal &&
+      modal.classList.contains("modal_opened") &&
+      !modalImageClick
+    ) {
+      closeModal(modal);
+    }
+  });
 }
 
 /*---------------------------------------------------------------------*/
@@ -198,47 +240,3 @@ cardCloseModal.addEventListener("click", () => closeModal(cardAddModal));
 initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-//close edit/add modal when clicking outside
-
-document.addEventListener("click", (event) => {
-  modals.forEach((modal) => {
-    const isClickInsideModal = Array.from(modalContainer).some((modal) =>
-      modal.contains(event.target)
-    );
-    if (
-      openModal &&
-      modal.classList.contains("modal_opened") &&
-      !isClickInsideModal
-    ) {
-      closeModal(modal);
-    }
-  });
-});
-
-//close image modal when clicking outside
-
-document.addEventListener("click", (event) => {
-  imageModal.forEach((modal) => {
-    const modalImageClick = modalImageElement.contains(event.target);
-    if (
-      openModal &&
-      modal.classList.contains("modal_opened") &&
-      !modalImageClick
-    ) {
-      closeModal(modal);
-    }
-  });
-});
-
-// close modal on esc key press
-
-function closeEscapeKey(event) {
-  if (event.key === "Escape") {
-    modalsEsc.forEach((modal) => {
-      if (modal.classList.contains("modal_opened")) {
-        closeModal(modal);
-      }
-    });
-  }
-}
