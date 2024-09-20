@@ -56,13 +56,15 @@ const cardCloseModal = document.querySelector("#card-close-modal");
 const addCardForm = document.querySelector("#add-card-form");
 const addCardFormElement = cardAddModal.querySelector(".modal__form");
 
-let cardTitleInput = addCardFormElement.querySelector(
+const cardTitleInput = addCardFormElement.querySelector(
   ".modal__input_type_title"
 );
 let cardLinkInput = addCardFormElement.querySelector(".modal__input_type_link");
 const modalImageElement = popupImageModal.querySelector(".modal__image");
-const modalOpened = document.querySelector(".modal_opened");
-const modals = document.querySelector(".modal");
+const modalContainer = document.querySelectorAll(".modal__container");
+const modalsEsc = [profileEditModal, cardAddModal, popupImageModal];
+const modals = [profileEditModal, cardAddModal];
+const imageModal = [popupImageModal];
 
 /*---------------------------------------------------------------------*/
 /*                             Functions                               */
@@ -70,10 +72,12 @@ const modals = document.querySelector(".modal");
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("keydown", closeEscapeKey);
 }
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  document.addEventListener("keydown", closeEscapeKey);
 }
 
 function getCardElement(cardData) {
@@ -107,11 +111,13 @@ function getCardElement(cardData) {
   // return the ready HTML element with the filled-in data
 
   cardImageEl.addEventListener("click", () => {
-    modalImageElement.src = cardData.link;
-    modalImageElement.alt = cardData.name;
-    popupImageCaption.textContent = cardData.name;
+    setTimeout(() => {
+      modalImageElement.src = cardData.link;
+      modalImageElement.alt = cardData.name;
+      popupImageCaption.textContent = cardData.name;
 
-    openModal(popupImageModal);
+      openModal(popupImageModal);
+    }, 10);
   });
 
   return cardElement;
@@ -153,10 +159,12 @@ popupImageCloseButton.addEventListener("click", () => {
 /* add profile edit button */
 
 profileAddEditButton.addEventListener("click", () => {
-  profileTitleInput.value = profileTitle.textContent;
-  profileDescriptionInput.value = profileDescription.textContent;
+  setTimeout(() => {
+    profileTitleInput.value = profileTitle.textContent;
+    profileDescriptionInput.value = profileDescription.textContent;
 
-  openModal(profileEditModal);
+    openModal(profileEditModal);
+  }, 10);
 });
 
 /* Remove profile edit button */
@@ -176,7 +184,9 @@ addCardForm.addEventListener("submit", handleAddCardSubmit);
 /* add new card button */
 
 addNewCardButton.addEventListener("click", () => {
-  openModal(cardAddModal);
+  setTimeout(() => {
+    openModal(cardAddModal);
+  }, 10);
 });
 
 /* remove new card button */
@@ -187,31 +197,48 @@ cardCloseModal.addEventListener("click", () => closeModal(cardAddModal));
 
 initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
 
-//close modal when click outside
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-// i would love feedback on this part of the code as i wasnt able to figure it out.
+//close edit/add modal when clicking outside
 
-/* document.addEventListener("click", (event) => {
-  const modalsClose = document.querySelector(".modal__form");
-  if (
-    document.querySelector(".modal_opened") &&
-    !modalsClose.contains(event.target)
-  ) {
-    console.log("hello");
-      closeModal(popupImageModal);
-      closeModal(profileEditModal);
-      closeModal(cardAddModal);
-  }
-}); */
+document.addEventListener("click", (event) => {
+  modals.forEach((modal) => {
+    const isClickInsideModal = Array.from(modalContainer).some((modal) =>
+      modal.contains(event.target)
+    );
+    if (
+      openModal &&
+      modal.classList.contains("modal_opened") &&
+      !isClickInsideModal
+    ) {
+      closeModal(modal);
+    }
+  });
+});
+
+//close image modal when clicking outside
+
+document.addEventListener("click", (event) => {
+  imageModal.forEach((modal) => {
+    const modalImageClick = modalImageElement.contains(event.target);
+    if (
+      openModal &&
+      modal.classList.contains("modal_opened") &&
+      !modalImageClick
+    ) {
+      closeModal(modal);
+    }
+  });
+});
 
 // close modal on esc key press
 
-document.addEventListener("keydown", (event) => {
+function closeEscapeKey(event) {
   if (event.key === "Escape") {
-    if (openModal) {
-      closeModal(popupImageModal);
-      closeModal(profileEditModal);
-      closeModal(cardAddModal);
-    }
+    modalsEsc.forEach((modal) => {
+      if (modal.classList.contains("modal_opened")) {
+        closeModal(modal);
+      }
+    });
   }
-});
+}
