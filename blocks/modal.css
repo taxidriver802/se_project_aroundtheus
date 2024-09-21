@@ -74,6 +74,8 @@
 
 .modal__error_visible {
   color: red;
+  position: absolute;
+  max-width: 400px;
   font-family: Inter, Arial, Helvetica, sans-serif;
   font-weight: 400;
   font-size: 12px;
@@ -132,7 +134,7 @@
   opacity: 0.8;
 }
 
-.modal__button_disabled:disabled {
+.modal__submit_disabled:disabled {
   opacity: 0.2;
   cursor: default;
 }

@@ -73,14 +73,14 @@ const imageModal = [popupImageModal];
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
   document.removeEventListener("keydown", closeEscapeKey);
-  document.removeEventListener("click", closeOutsideClick);
+  document.removeEventListener("click", closeFormOutsideClick);
   document.removeEventListener("click", closeImageOutsideClick);
 }
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
   document.addEventListener("keydown", closeEscapeKey);
-  document.addEventListener("click", closeOutsideClick);
+  document.addEventListener("click", closeFormOutsideClick);
   document.addEventListener("click", closeImageOutsideClick);
 }
 
@@ -142,7 +142,7 @@ function closeEscapeKey(event) {
   }
 }
 
-function closeOutsideClick(event) {
+function closeFormOutsideClick(event) {
   modals.forEach((modal) => {
     const isClickInsideModal = Array.from(modalContainer).some((modal) =>
       modal.contains(event.target)
