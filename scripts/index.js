@@ -63,10 +63,10 @@ const cardLinkInput = addCardFormElement.querySelector(
   ".modal__input_type_link"
 );
 const modalImageElement = popupImageModal.querySelector(".modal__image");
-const modalContainers = document.querySelectorAll(".modal__container");
 const modalsEsc = [profileEditModal, cardAddModal, popupImageModal];
-const modals = [profileEditModal, cardAddModal];
-const imageModal = [popupImageModal];
+
+const modalCloseJs = document.querySelectorAll(".js-modal-close");
+const modalContainerJs = document.querySelectorAll(".js-modal-container");
 
 /*---------------------------------------------------------------------*/
 /*                             Functions                               */
@@ -74,22 +74,24 @@ const imageModal = [popupImageModal];
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+
+  removelisteners();
 }
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
+
+  addlisteners();
 }
 
 function addlisteners() {
   document.addEventListener("keydown", closeEscapeKey);
   document.addEventListener("click", closeFormOutsideClick);
-  document.addEventListener("click", closeImageOutsideClick);
 }
 
 function removelisteners() {
   document.removeEventListener("keydown", closeEscapeKey);
   document.removeEventListener("click", closeFormOutsideClick);
-  document.removeEventListener("click", closeImageOutsideClick);
 }
 
 function getCardElement(cardData) {
@@ -129,7 +131,6 @@ function getCardElement(cardData) {
       popupImageCaption.textContent = cardData.name;
 
       openModal(popupImageModal);
-      addlisteners();
     }, 10);
   });
 
@@ -146,15 +147,14 @@ function closeEscapeKey(event) {
     modalsEsc.forEach((modal) => {
       if (modal.classList.contains("modal_opened")) {
         closeModal(modal);
-        removelisteners();
       }
     });
   }
 }
 
 function closeFormOutsideClick(event) {
-  modals.forEach((modal) => {
-    const isClickInsideModal = Array.from(modalContainers).some((modal) =>
+  modalCloseJs.forEach((modal) => {
+    const isClickInsideModal = Array.from(modalContainerJs).some((modal) =>
       modal.contains(event.target)
     );
     if (
@@ -163,21 +163,7 @@ function closeFormOutsideClick(event) {
       !isClickInsideModal
     ) {
       closeModal(modal);
-      removelisteners();
-    }
-  });
-}
-
-function closeImageOutsideClick(event) {
-  imageModal.forEach((modal) => {
-    const modalImageClick = modalImageElement.contains(event.target);
-    if (
-      openModal &&
-      modal.classList.contains("modal_opened") &&
-      !modalImageClick
-    ) {
-      closeModal(modal);
-      removelisteners();
+      console.log("Hello");
     }
   });
 }
@@ -208,7 +194,6 @@ function handleAddCardSubmit(e) {
 
 popupImageCloseButton.addEventListener("click", () => {
   closeModal(popupImageModal);
-  addlisteners();
 });
 
 /* add profile edit button */
@@ -219,7 +204,6 @@ profileAddEditButton.addEventListener("click", () => {
     profileDescriptionInput.value = profileDescription.textContent;
 
     openModal(profileEditModal);
-    addlisteners();
   }, 10);
 });
 
@@ -242,7 +226,6 @@ addCardForm.addEventListener("submit", handleAddCardSubmit);
 addNewCardButton.addEventListener("click", () => {
   setTimeout(() => {
     openModal(cardAddModal);
-    addlisteners();
   }, 10);
 });
 

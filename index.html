@@ -49,8 +49,8 @@
 
     <!-- Edit Modal -->
 
-    <div class="modal" id="profile-edit-modal">
-      <div class="modal__container">
+    <div class="modal js-modal-close" id="profile-edit-modal">
+      <div class="modal__container js-modal-container">
         <button
           class="modal__close modal__close-form"
           id="profile-close-modal-button"
@@ -66,7 +66,9 @@
             maxlength="40"
             required
           />
+
           <span class="modal__error" id="profile-title-input-error"></span>
+
           <input
             type="text"
             class="modal__description modal__input"
@@ -76,17 +78,19 @@
             maxlength="200"
             required
           />
+
           <span
             class="modal__error"
             id="profile-description-input-error"
           ></span>
+
           <button class="modal__submit" type="submit">Save</button>
         </form>
       </div>
     </div>
 
-    <div class="modal" id="card-add-modal">
-      <div class="modal__container">
+    <div class="modal js-modal-close" id="card-add-modal">
+      <div class="modal__container js-modal-container">
         <button
           class="modal__close modal__close-form"
           id="card-close-modal"
@@ -130,14 +134,14 @@
 
     <!-- Add Card Modal -->
 
-    <div class="modal" id="popup-image">
+    <div class="modal js-modal-close" id="popup-image">
       <div class="modal__content modal__content-container">
         <button
           class="modal__close"
           id="popup-image-close-button"
           type="button"
         ></button>
-        <img src="" alt="" class="modal__image" />
+        <img src="" alt="" class="modal__image js-modal-container" />
         <p class="modal__caption"></p>
       </div>
     </div>
