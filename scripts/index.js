@@ -59,9 +59,11 @@ const addCardFormElement = cardAddModal.querySelector(".modal__form");
 const cardTitleInput = addCardFormElement.querySelector(
   ".modal__input_type_title"
 );
-let cardLinkInput = addCardFormElement.querySelector(".modal__input_type_link");
+const cardLinkInput = addCardFormElement.querySelector(
+  ".modal__input_type_link"
+);
 const modalImageElement = popupImageModal.querySelector(".modal__image");
-const modalContainer = document.querySelectorAll(".modal__container");
+const modalContainers = document.querySelectorAll(".modal__container");
 const modalsEsc = [profileEditModal, cardAddModal, popupImageModal];
 const modals = [profileEditModal, cardAddModal];
 const imageModal = [popupImageModal];
@@ -72,16 +74,22 @@ const imageModal = [popupImageModal];
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
-  document.removeEventListener("keydown", closeEscapeKey);
-  document.removeEventListener("click", closeFormOutsideClick);
-  document.removeEventListener("click", closeImageOutsideClick);
 }
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
+}
+
+function addlisteners() {
   document.addEventListener("keydown", closeEscapeKey);
   document.addEventListener("click", closeFormOutsideClick);
   document.addEventListener("click", closeImageOutsideClick);
+}
+
+function removelisteners() {
+  document.removeEventListener("keydown", closeEscapeKey);
+  document.removeEventListener("click", closeFormOutsideClick);
+  document.removeEventListener("click", closeImageOutsideClick);
 }
 
 function getCardElement(cardData) {
@@ -121,6 +129,7 @@ function getCardElement(cardData) {
       popupImageCaption.textContent = cardData.name;
 
       openModal(popupImageModal);
+      addlisteners();
     }, 10);
   });
 
@@ -137,6 +146,7 @@ function closeEscapeKey(event) {
     modalsEsc.forEach((modal) => {
       if (modal.classList.contains("modal_opened")) {
         closeModal(modal);
+        removelisteners();
       }
     });
   }
@@ -144,7 +154,7 @@ function closeEscapeKey(event) {
 
 function closeFormOutsideClick(event) {
   modals.forEach((modal) => {
-    const isClickInsideModal = Array.from(modalContainer).some((modal) =>
+    const isClickInsideModal = Array.from(modalContainers).some((modal) =>
       modal.contains(event.target)
     );
     if (
@@ -153,6 +163,7 @@ function closeFormOutsideClick(event) {
       !isClickInsideModal
     ) {
       closeModal(modal);
+      removelisteners();
     }
   });
 }
@@ -166,6 +177,7 @@ function closeImageOutsideClick(event) {
       !modalImageClick
     ) {
       closeModal(modal);
+      removelisteners();
     }
   });
 }
@@ -196,6 +208,7 @@ function handleAddCardSubmit(e) {
 
 popupImageCloseButton.addEventListener("click", () => {
   closeModal(popupImageModal);
+  addlisteners();
 });
 
 /* add profile edit button */
@@ -206,6 +219,7 @@ profileAddEditButton.addEventListener("click", () => {
     profileDescriptionInput.value = profileDescription.textContent;
 
     openModal(profileEditModal);
+    addlisteners();
   }, 10);
 });
 
@@ -228,6 +242,7 @@ addCardForm.addEventListener("submit", handleAddCardSubmit);
 addNewCardButton.addEventListener("click", () => {
   setTimeout(() => {
     openModal(cardAddModal);
+    addlisteners();
   }, 10);
 });
 
