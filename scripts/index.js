@@ -63,7 +63,7 @@ const cardLinkInput = addCardFormElement.querySelector(
   ".modal__input_type_link"
 );
 const modalImageElement = popupImageModal.querySelector(".modal__image");
-const modalsEsc = [profileEditModal, cardAddModal, popupImageModal];
+const modals = [profileEditModal, cardAddModal, popupImageModal];
 
 const modalCloseJs = document.querySelectorAll(".js-modal-close");
 const modalContainerJs = document.querySelectorAll(".js-modal-container");
@@ -86,12 +86,12 @@ function openModal(modal) {
 
 function addlisteners() {
   document.addEventListener("keydown", closeEscapeKey);
-  document.addEventListener("click", closeFormOutsideClick);
+  document.addEventListener("click", handleOverlay);
 }
 
 function removelisteners() {
   document.removeEventListener("keydown", closeEscapeKey);
-  document.removeEventListener("click", closeFormOutsideClick);
+  document.removeEventListener("click", handleOverlay);
 }
 
 function getCardElement(cardData) {
@@ -144,7 +144,7 @@ function renderCard(cardData) {
 
 function closeEscapeKey(event) {
   if (event.key === "Escape") {
-    modalsEsc.forEach((modal) => {
+    modals.forEach((modal) => {
       if (modal.classList.contains("modal_opened")) {
         closeModal(modal);
       }
@@ -152,20 +152,10 @@ function closeEscapeKey(event) {
   }
 }
 
-function closeFormOutsideClick(event) {
-  modalCloseJs.forEach((modal) => {
-    const isClickInsideModal = Array.from(modalContainerJs).some((modal) =>
-      modal.contains(event.target)
-    );
-    if (
-      openModal &&
-      modal.classList.contains("modal_opened") &&
-      !isClickInsideModal
-    ) {
-      closeModal(modal);
-      console.log("Hello");
-    }
-  });
+function handleOverlay(event) {
+  if (event.target.classList.contains("modal_opened")) {
+    closeModal(event.target);
+  }
 }
 
 /*---------------------------------------------------------------------*/
