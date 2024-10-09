@@ -1,3 +1,6 @@
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -24,6 +27,25 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
   },
 ];
+
+initialCards.forEach((cards) => {
+  const cardsData = cards;
+  const card = new Card(cardsData, "#card-template");
+  card.getView();
+});
+
+const settings = {
+  formSelector: ".modal__form",
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__submit",
+  inactiveButtonClass: "modal__submit_disabled",
+  inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__error_visible",
+};
+
+const formElement = [...document.querySelectorAll(settings.formSelector)];
+
+const formValidator = new FormValidator(settings, formElement);
 
 /*---------------------------------------------------------------------*/
 /*                             Elements                                */
@@ -65,9 +87,6 @@ const cardLinkInput = addCardFormElement.querySelector(
 const modalImageElement = popupImageModal.querySelector(".modal__image");
 const modals = [profileEditModal, cardAddModal, popupImageModal];
 
-const modalCloseJs = document.querySelectorAll(".js-modal-close");
-const modalContainerJs = document.querySelectorAll(".js-modal-container");
-
 /*---------------------------------------------------------------------*/
 /*                             Functions                               */
 /*---------------------------------------------------------------------*/
@@ -101,7 +120,6 @@ function getCardElement(cardData) {
   const cardImageEl = cardElement.querySelector(".card__image");
   const cardTitleEl = cardElement.querySelector(".card__title");
   const likeButton = cardElement.querySelector(".card__like-button");
-
   const deleteButton = cardElement.querySelector(".card__delete-button");
 
   deleteButton.addEventListener("click", () => {
