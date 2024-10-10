@@ -1,5 +1,5 @@
 import Card from "../components/Card.js";
-import FormValidator from "../components/FormValidator.js";
+/* import FormValidator from "../components/FormValidator.js"; */
 
 const initialCards = [
   {
@@ -28,25 +28,6 @@ const initialCards = [
   },
 ];
 
-initialCards.forEach((cards) => {
-  const cardsData = cards;
-  const card = new Card(cardsData, "#card-template");
-  card.getView();
-});
-
-const settings = {
-  formSelector: ".modal__form",
-  inputSelector: ".modal__input",
-  submitButtonSelector: ".modal__submit",
-  inactiveButtonClass: "modal__submit_disabled",
-  inputErrorClass: "modal__input_type_error",
-  errorClass: "modal__error_visible",
-};
-
-const formElement = [...document.querySelectorAll(settings.formSelector)];
-
-const formValidator = new FormValidator(settings, formElement);
-
 /*---------------------------------------------------------------------*/
 /*                             Elements                                */
 /*---------------------------------------------------------------------*/
@@ -55,11 +36,10 @@ const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileCloseModalButton = document.querySelector(
   "#profile-close-modal-button"
 );
-const popupImageModal = document.querySelector("#popup-image");
+
 const popupImageCloseButton = document.querySelector(
   "#popup-image-close-button"
 );
-const popupImageCaption = document.querySelector(".modal__caption");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const profileTitleInput = document.querySelector("#profile-title-input");
@@ -84,8 +64,64 @@ const cardTitleInput = addCardFormElement.querySelector(
 const cardLinkInput = addCardFormElement.querySelector(
   ".modal__input_type_link"
 );
-const modalImageElement = popupImageModal.querySelector(".modal__image");
+const popupImageModal = document.querySelector("#popup-image");
 const modals = [profileEditModal, cardAddModal, popupImageModal];
+const jsModalContainer = document.querySelectorAll(".js-modal-container");
+const cardList = document.querySelector(".cards__list");
+
+//////
+
+const handleImageClick = ({ name, link }) => {
+  const modalImageElement = document.querySelector(".modal__image");
+  const popupImageCaption = document.querySelector(".modal__caption");
+
+  modalImageElement.src = link;
+  modalImageElement.alt = name;
+  popupImageCaption.textContent = name;
+
+  setTimeout(() => {
+    openModal(popupImageModal);
+  }, 10);
+};
+
+const handleOverlay = (event) => {
+  modals.forEach((modal, index) => {
+    const modalContainer = jsModalContainer[index];
+
+    if (
+      modal.classList.contains("modal_opened") &&
+      !modalContainer.contains(event.target)
+    ) {
+      closeModal(modal);
+    }
+  });
+};
+
+initialCards.forEach((cardsData) => {
+  const card = new Card(
+    cardsData,
+    "#card-template",
+    handleImageClick,
+    handleOverlay
+  );
+
+  card.getView();
+
+  cardList.prepend(card.getView());
+});
+
+/* const settings = {
+  formSelector: ".modal__form",
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__submit",
+  inactiveButtonClass: "modal__submit_disabled",
+  inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__error_visible",
+};
+
+const formElement = [...document.querySelectorAll(settings.formSelector)];
+
+const formValidator = new FormValidator(settings, formElement); */
 
 /*---------------------------------------------------------------------*/
 /*                             Functions                               */
@@ -119,20 +155,6 @@ function getCardElement(cardData) {
   // access the card title and image and store them in variables
   const cardImageEl = cardElement.querySelector(".card__image");
   const cardTitleEl = cardElement.querySelector(".card__title");
-  const likeButton = cardElement.querySelector(".card__like-button");
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-
-  deleteButton.addEventListener("click", () => {
-    cardElement.remove();
-  });
-
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-button_active");
-  });
-
-  // add click listener to the card image element : cardImage
-  // open modal with the preview image modal : previewImageModal
-  // visibility: hidden;
 
   // set the path to the image to the link field of the object
   cardImageEl.src = cardData.link;
@@ -141,16 +163,6 @@ function getCardElement(cardData) {
   // set the card title to the name field of the object, too
   cardTitleEl.textContent = cardData.name;
   // return the ready HTML element with the filled-in data
-
-  cardImageEl.addEventListener("click", () => {
-    setTimeout(() => {
-      modalImageElement.src = cardData.link;
-      modalImageElement.alt = cardData.name;
-      popupImageCaption.textContent = cardData.name;
-
-      openModal(popupImageModal);
-    }, 10);
-  });
 
   return cardElement;
 }
@@ -170,12 +182,6 @@ function closeEscapeKey(event) {
   }
 }
 
-function handleOverlay(event) {
-  if (event.target.classList.contains("modal_opened")) {
-    closeModal(event.target);
-  }
-}
-
 /*---------------------------------------------------------------------*/
 /*                           Event Handlers                            */
 /*---------------------------------------------------------------------*/
@@ -190,6 +196,7 @@ function handleAddCardSubmit(e) {
   e.preventDefault();
   const name = cardTitleInput.value;
   const link = cardLinkInput.value;
+  console.log(cardTitleInput.value);
   renderCard({ name, link }, cardListEl);
   cardTitleInput.value = "";
   cardLinkInput.value = "";
@@ -240,9 +247,5 @@ addNewCardButton.addEventListener("click", () => {
 /* remove new card button */
 
 cardCloseModal.addEventListener("click", () => closeModal(cardAddModal));
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

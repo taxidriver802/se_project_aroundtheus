@@ -1,18 +1,29 @@
 export default class Card {
-  constructor({ name, link }, cardSelector, handleImageClick) {
+  constructor({ name, link }, cardSelector, handleImageClick, handleOverlay) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
+    this._handleOverlay = handleOverlay;
   }
 
   getView() {
+    // get card view
     this._cardElement = document
       .querySelector(this._cardSelector)
       .content.querySelector(".card__template")
       .cloneNode(true);
 
-    // get card view
+    // consts
+    this._cardImageElement = this._cardElement.querySelector(".card__image");
+    this._popupImageModal = document.querySelector("#popup-image");
+    this._modalContent = document.querySelector(".modal__content");
+    this._modalImageClose = document.querySelector(".js-modal-close");
+    this._cardTitleEl = this._cardElement.querySelector(".card__title");
+    this._cardImageElement.src = this._link;
+    this._cardImageElement.alt = this._name;
+    this._cardTitleEl.textContent = this._name;
+
     // set event listeners
     this._setEventListeners();
 
@@ -35,12 +46,21 @@ export default class Card {
         this._handleDeleteCard();
       });
 
-    // .card__image
-    this._cardElement
-      .querySelector(".card__image")
-      .addEventListener("click", () => {
-        this._handleImageClick();
-      });
+    // handle image click
+    setTimeout(() => {
+      this._cardImageElement.addEventListener(
+        "click",
+        () => {
+          this._handleImageClick({ name: this._name, link: this._link });
+        },
+        10
+      );
+    });
+
+    //handle image popup close
+    this._modalImageClose.addEventListener("click", (event) => {
+      this._handleOverlay(event);
+    });
   }
 
   _handleLikeIcon() {
@@ -54,14 +74,14 @@ export default class Card {
     this._cardElement = null;
   }
 
-  _handleImageClick() {
-    const _cardElement = cardTemplate.cloneNode(true);
-    const cardImageEl = this._cardElement.querySelector(".card__image");
-    const cardTitleEl = this._cardElement.querySelector(".card__title");
-    cardImageEl.src = this._link;
-    cardImageEl.alt = this._name;
-    cardTitleEl.textContent = this._name;
-
-    return _cardElement;
-  }
+  /* _closeModal(event) {
+    const popupImageModal = document.querySelector("#popup-image");
+    const modalContent = document.querySelector(".modal__content");
+    if (
+      popupImageModal.classList.contains("modal_opened") &&
+      !modalContent.contains(event.target)
+    ) {
+      popupImageModal.classList.remove("modal_opened");
+    }
+  } */
 }
