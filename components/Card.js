@@ -73,15 +73,4 @@ export default class Card {
     this._cardElement.remove();
     this._cardElement = null;
   }
-
-  /* _closeModal(event) {
-    const popupImageModal = document.querySelector("#popup-image");
-    const modalContent = document.querySelector(".modal__content");
-    if (
-      popupImageModal.classList.contains("modal_opened") &&
-      !modalContent.contains(event.target)
-    ) {
-      popupImageModal.classList.remove("modal_opened");
-    }
-  } */
 }

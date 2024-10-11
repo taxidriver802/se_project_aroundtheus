@@ -1,5 +1,5 @@
 import Card from "../components/Card.js";
-/* import FormValidator from "../components/FormValidator.js"; */
+import FormValidator from "../components/FormValidator.js";
 
 const initialCards = [
   {
@@ -68,8 +68,25 @@ const popupImageModal = document.querySelector("#popup-image");
 const modals = [profileEditModal, cardAddModal, popupImageModal];
 const jsModalContainer = document.querySelectorAll(".js-modal-container");
 const cardList = document.querySelector(".cards__list");
+const editFormElement = profileEditModal.querySelector(".modal__form");
+const addFormElement = cardAddModal.querySelector(".modal__form");
 
 //////
+
+const config = {
+  formSelector: ".modal__form",
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__submit",
+  inactiveButtonClass: "modal__submit_disabled",
+  inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__error_visible",
+};
+
+const addFormValidator = new FormValidator(config, addFormElement);
+addFormValidator.enableValidation();
+
+const editFormValidator = new FormValidator(config, editFormElement);
+editFormValidator.enableValidation();
 
 const handleImageClick = ({ name, link }) => {
   const modalImageElement = document.querySelector(".modal__image");
@@ -109,19 +126,6 @@ initialCards.forEach((cardsData) => {
 
   cardList.prepend(card.getView());
 });
-
-/* const settings = {
-  formSelector: ".modal__form",
-  inputSelector: ".modal__input",
-  submitButtonSelector: ".modal__submit",
-  inactiveButtonClass: "modal__submit_disabled",
-  inputErrorClass: "modal__input_type_error",
-  errorClass: "modal__error_visible",
-};
-
-const formElement = [...document.querySelectorAll(settings.formSelector)];
-
-const formValidator = new FormValidator(settings, formElement); */
 
 /*---------------------------------------------------------------------*/
 /*                             Functions                               */
@@ -196,8 +200,16 @@ function handleAddCardSubmit(e) {
   e.preventDefault();
   const name = cardTitleInput.value;
   const link = cardLinkInput.value;
-  console.log(cardTitleInput.value);
-  renderCard({ name, link }, cardListEl);
+
+  const card = new Card(
+    { name, link },
+    "#card-template",
+    handleImageClick,
+    handleOverlay
+  );
+
+  cardList.prepend(card.getView());
+
   cardTitleInput.value = "";
   cardLinkInput.value = "";
   closeModal(cardAddModal);
