@@ -171,20 +171,24 @@ function handleAddCardSubmit(e) {
   cardTitleInput.value = "";
   cardLinkInput.value = "";
 
-  addFormValidator.resetValidation();
+  addFormValidator.disableButton();
 
   closeModal(cardAddModal);
 }
 
 function createCard(cardsData) {
+  const cardElement = generateCard(cardsData);
+  cardList.prepend(cardElement);
+}
+
+function generateCard(cardsData) {
   const card = new Card(
     cardsData,
     "#card-template",
     handleImageClick,
     handleOverlay
   );
-
-  cardList.prepend(card.getView());
+  return card.getView();
 }
 
 /*---------------------------------------------------------------------*/

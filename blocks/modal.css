@@ -196,3 +196,9 @@
     line-height: 16.94px;
   }
 }
+
+@media screen and (max-width: 320px) {
+  .modal {
+    padding: 0 19px;
+  }
+}

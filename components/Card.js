@@ -10,7 +10,7 @@ export default class Card {
     // get card view
     this._cardElement = document
       .querySelector(this._cardSelector)
-      .content.querySelector(".card__list")
+      .content.querySelector(".card")
       .cloneNode(true);
 
     // consts
