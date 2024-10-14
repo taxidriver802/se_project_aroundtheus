@@ -54,17 +54,14 @@ export default class FormValidator {
   }
 
   _setEventListeners() {
-    const inputEls = [
+    this._inputEls = [
       ...this._formElement.querySelectorAll(this._inputSelector),
     ];
-    const submitButton = this._formElement.querySelector(
-      this._submitButtonSelector
-    );
 
-    inputEls.forEach((inputElement) => {
+    this._inputEls.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(inputEls);
+        this._toggleButtonState(this._inputEls);
       });
     });
   }
@@ -75,5 +72,19 @@ export default class FormValidator {
     });
 
     this._setEventListeners();
+  }
+
+  resetValidation() {
+    this._inputEls.forEach((inputElement) => {
+      this._hideInputError(inputElement); // Clear all error messages
+      inputElement.value = ""; // Clear input fields
+    });
+
+    // Reset button state
+    const submitButton = this._formElement.querySelector(
+      this._submitButtonSelector
+    );
+    submitButton.classList.add(this._inactiveButtonClass);
+    submitButton.disabled = true;
   }
 }

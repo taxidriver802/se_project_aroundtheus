@@ -1,24 +1,20 @@
 export default class Card {
-  constructor({ name, link }, cardSelector, handleImageClick, handleOverlay) {
+  constructor({ name, link }, cardSelector, handleImageClick) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
-    this._handleOverlay = handleOverlay;
   }
 
   getView() {
     // get card view
     this._cardElement = document
       .querySelector(this._cardSelector)
-      .content.querySelector(".card__template")
+      .content.querySelector(".card__list")
       .cloneNode(true);
 
     // consts
     this._cardImageElement = this._cardElement.querySelector(".card__image");
-    this._popupImageModal = document.querySelector("#popup-image");
-    this._modalContent = document.querySelector(".modal__content");
-    this._modalImageClose = document.querySelector(".js-modal-close");
     this._cardTitleEl = this._cardElement.querySelector(".card__title");
     this._cardImageElement.src = this._link;
     this._cardImageElement.alt = this._name;
@@ -47,19 +43,9 @@ export default class Card {
       });
 
     // handle image click
-    setTimeout(() => {
-      this._cardImageElement.addEventListener(
-        "click",
-        () => {
-          this._handleImageClick({ name: this._name, link: this._link });
-        },
-        10
-      );
-    });
 
-    //handle image popup close
-    this._modalImageClose.addEventListener("click", (event) => {
-      this._handleOverlay(event);
+    this._cardImageElement.addEventListener("click", () => {
+      this._handleImageClick({ name: this._name, link: this._link });
     });
   }
 

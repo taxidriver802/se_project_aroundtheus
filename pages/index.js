@@ -48,10 +48,6 @@ const profileDescriptionInput = document.querySelector(
 );
 const profileEditForm = profileEditModal.querySelector(".modal__form");
 
-const cardListEl = document.querySelector(".cards__list");
-const cardTemplate =
-  document.querySelector("#card-template").content.firstElementChild;
-
 const addNewCardButton = document.querySelector(".profile__add-button");
 const cardAddModal = document.querySelector("#card-add-modal");
 const cardCloseModal = document.querySelector("#card-close-modal");
@@ -66,10 +62,11 @@ const cardLinkInput = addCardFormElement.querySelector(
 );
 const popupImageModal = document.querySelector("#popup-image");
 const modals = [profileEditModal, cardAddModal, popupImageModal];
-const jsModalContainer = document.querySelectorAll(".js-modal-container");
+const jsModalContainers = document.querySelectorAll(".js-modal-container");
 const cardList = document.querySelector(".cards__list");
-const editFormElement = profileEditModal.querySelector(".modal__form");
-const addFormElement = cardAddModal.querySelector(".modal__form");
+
+const modalImageElement = document.querySelector(".modal__image");
+const popupImageCaption = document.querySelector(".modal__caption");
 
 //////
 
@@ -82,16 +79,13 @@ const config = {
   errorClass: "modal__error_visible",
 };
 
-const addFormValidator = new FormValidator(config, addFormElement);
+const addFormValidator = new FormValidator(config, addCardFormElement);
 addFormValidator.enableValidation();
 
-const editFormValidator = new FormValidator(config, editFormElement);
+const editFormValidator = new FormValidator(config, profileEditForm);
 editFormValidator.enableValidation();
 
 const handleImageClick = ({ name, link }) => {
-  const modalImageElement = document.querySelector(".modal__image");
-  const popupImageCaption = document.querySelector(".modal__caption");
-
   modalImageElement.src = link;
   modalImageElement.alt = name;
   popupImageCaption.textContent = name;
@@ -101,30 +95,8 @@ const handleImageClick = ({ name, link }) => {
   }, 10);
 };
 
-const handleOverlay = (event) => {
-  modals.forEach((modal, index) => {
-    const modalContainer = jsModalContainer[index];
-
-    if (
-      modal.classList.contains("modal_opened") &&
-      !modalContainer.contains(event.target)
-    ) {
-      closeModal(modal);
-    }
-  });
-};
-
 initialCards.forEach((cardsData) => {
-  const card = new Card(
-    cardsData,
-    "#card-template",
-    handleImageClick,
-    handleOverlay
-  );
-
-  card.getView();
-
-  cardList.prepend(card.getView());
+  createCard(cardsData);
 });
 
 /*---------------------------------------------------------------------*/
@@ -163,6 +135,19 @@ function closeEscapeKey(event) {
   }
 }
 
+function handleOverlay(event) {
+  modals.forEach((modal, index) => {
+    const modalContainer = jsModalContainers[index];
+
+    if (
+      modal.classList.contains("modal_opened") &&
+      !modalContainer.contains(event.target)
+    ) {
+      closeModal(modal);
+    }
+  });
+}
+
 /*---------------------------------------------------------------------*/
 /*                           Event Handlers                            */
 /*---------------------------------------------------------------------*/
@@ -175,27 +160,31 @@ function handleProfileEditSubmit(e) {
 
 function handleAddCardSubmit(e) {
   e.preventDefault();
-  const name = cardTitleInput.value;
-  const link = cardLinkInput.value;
 
+  const cardsData = {
+    name: cardTitleInput.value,
+    link: cardLinkInput.value,
+  };
+
+  createCard(cardsData);
+
+  cardTitleInput.value = "";
+  cardLinkInput.value = "";
+
+  addFormValidator.resetValidation();
+
+  closeModal(cardAddModal);
+}
+
+function createCard(cardsData) {
   const card = new Card(
-    { name, link },
+    cardsData,
     "#card-template",
     handleImageClick,
     handleOverlay
   );
 
   cardList.prepend(card.getView());
-
-  cardTitleInput.value = "";
-  cardLinkInput.value = "";
-
-  const submitButton = addCardForm.querySelector(".modal__submit");
-  const inactiveButtonClass = "modal__submit_disabled";
-  submitButton.classList.add(inactiveButtonClass);
-  submitButton.disabled = true;
-
-  closeModal(cardAddModal);
 }
 
 /*---------------------------------------------------------------------*/
