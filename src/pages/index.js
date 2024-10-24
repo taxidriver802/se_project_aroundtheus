@@ -1,5 +1,9 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
+import Popup from "../components/Popup.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import Section from "../components/Section.js";
+import "./index.css";
 
 const initialCards = [
   {
@@ -84,6 +88,13 @@ addFormValidator.enableValidation();
 
 const editFormValidator = new FormValidator(config, profileEditForm);
 editFormValidator.enableValidation();
+
+const newCardPopup = new PopupWithForm("#card-add-modal", () => {});
+newCardPopup.open();
+
+newCardPopup.close();
+
+/* const cardSection = new Section({ renderer: () => {}, selector: }); */
 
 const handleImageClick = ({ name, link }) => {
   modalImageElement.src = link;
