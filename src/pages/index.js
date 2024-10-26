@@ -1,8 +1,7 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
-import Popup from "../components/Popup.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
 import "./index.css";
 
 const initialCards = [
@@ -72,6 +71,9 @@ const cardList = document.querySelector(".cards__list");
 const modalImageElement = document.querySelector(".modal__image");
 const popupImageCaption = document.querySelector(".modal__caption");
 
+const removeListeners = () => {
+  document.removeEventListener("click", handleOverlay);
+};
 //////
 
 const config = {
@@ -89,10 +91,23 @@ addFormValidator.enableValidation();
 const editFormValidator = new FormValidator(config, profileEditForm);
 editFormValidator.enableValidation();
 
-const newCardPopup = new PopupWithForm("#card-add-modal", () => {});
-newCardPopup.open();
+const imagePopup = new PopupWithImage(
+  popupImageModal,
+  handleOverlay,
+  removeListeners
+);
 
-newCardPopup.close();
+const newCardPopup = new PopupWithForm(
+  cardAddModal,
+  handleOverlay,
+  removeListeners
+);
+
+const editProfilePopup = new PopupWithForm(
+  profileEditModal,
+  handleOverlay,
+  removeListeners
+);
 
 /* const cardSection = new Section({ renderer: () => {}, selector: }); */
 
@@ -102,7 +117,7 @@ const handleImageClick = ({ name, link }) => {
   popupImageCaption.textContent = name;
 
   setTimeout(() => {
-    openModal(popupImageModal);
+    imagePopup.open(popupImageModal);
   }, 10);
 };
 
@@ -117,33 +132,7 @@ initialCards.forEach((cardsData) => {
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
 
-  removelisteners();
-}
-
-function openModal(modal) {
-  modal.classList.add("modal_opened");
-
-  addlisteners();
-}
-
-function addlisteners() {
-  document.addEventListener("keydown", closeEscapeKey);
-  document.addEventListener("click", handleOverlay);
-}
-
-function removelisteners() {
-  document.removeEventListener("keydown", closeEscapeKey);
-  document.removeEventListener("click", handleOverlay);
-}
-
-function closeEscapeKey(event) {
-  if (event.key === "Escape") {
-    modals.forEach((modal) => {
-      if (modal.classList.contains("modal_opened")) {
-        closeModal(modal);
-      }
-    });
-  }
+  /* removeListeners(); */
 }
 
 function handleOverlay(event) {
@@ -217,7 +206,7 @@ profileAddEditButton.addEventListener("click", () => {
     profileTitleInput.value = profileTitle.textContent;
     profileDescriptionInput.value = profileDescription.textContent;
 
-    openModal(profileEditModal);
+    editProfilePopup.open(profileEditModal);
   }, 10);
 });
 
@@ -239,7 +228,7 @@ addCardForm.addEventListener("submit", handleAddCardSubmit);
 
 addNewCardButton.addEventListener("click", () => {
   setTimeout(() => {
-    openModal(cardAddModal);
+    newCardPopup.open(cardAddModal);
   }, 10);
 });
 

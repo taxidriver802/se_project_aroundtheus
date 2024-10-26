@@ -1,14 +1,16 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
-  constructor(popupSelector, handleFormSubmit) {
-    super({ popupSelector });
-    this._popupForm = this.popupElement.querySelector(".modal__form");
-    this._handleFormSubmit = handleFormSubmit;
+  constructor(popupSelector, handleOverlay, removeListeners) {
+    super({ popupSelector }, handleOverlay, removeListeners);
+    this._popupForm = document.querySelector(".js-modal-form");
   }
 
   close() {
-    this._popupForm.reset();
+    // Reset the form before closing
+    if (this._popupForm) {
+      this._popupForm.reset();
+    }
     super.close();
   }
 }
