@@ -3,6 +3,9 @@ export default class Popup {
     this.popupElement = popupSelector;
     this._handleOverlay = handleOverlay;
     this._removeListeners = removeListeners;
+    /* this._imagePopup = imagePopup;
+    this._newCardPopup = newCardPopup;
+    this._editProfilePopup = editProfilePopup; */
 
     this._handleEscClose = this._handleEscClose.bind(this);
   }
@@ -12,18 +15,20 @@ export default class Popup {
 
     document.addEventListener("keydown", this._handleEscClose);
 
-    document.addEventListener("click", this._handleOverlay);
+    document.addEventListener("click", (event) =>
+      this._handleOverlay(this.popupElement, event)
+    );
   }
 
-  open(modal) {
+  open() {
     // opens popup
 
-    modal.classList.add("modal_opened");
+    this.popupElement.classList.add("modal_opened");
 
     this.setEventListeners();
   }
 
-  close(_popupElement) {
+  close() {
     // closes popup
 
     this.popupElement.classList.remove("modal_opened");
