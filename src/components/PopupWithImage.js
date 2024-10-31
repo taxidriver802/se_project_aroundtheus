@@ -15,8 +15,6 @@ export default class PopupWithImage extends Popup {
     // set the caption's textContent
     const imageCaption = this._popupSelector.alt;
 
-    document.addEventListener("click", this._handleOverlay);
-
     super.open(this._popupSelector);
   }
 }
