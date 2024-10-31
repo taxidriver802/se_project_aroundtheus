@@ -145,19 +145,12 @@ function handleOverlay(event) {
   popupInstances.forEach((popupInstance) => {
     const modalElement = popupInstance.popupElement;
 
-    if (!modalElement) {
-      /* console.warn("modalElement is undefined for", popupInstance);
-      return; */
-    }
-
     const contentContainer = modalElement.querySelector(".js-modal-container");
 
     if (modalElement.classList.contains("modal_opened")) {
       if (!contentContainer.contains(event.target)) {
-        /* console.log("Clicked outside:", event.target); */
         popupInstance.close();
       } else {
-        /* console.log("Clicked inside:", event.target); */
         event.stopPropagation();
       }
     }
@@ -235,7 +228,7 @@ addCardForm.addEventListener("submit", handleAddCardSubmit);
 
 addNewCardButton.addEventListener("click", () => {
   setTimeout(() => {
-    newCardPopup.open(/* cardAddModal */);
+    newCardPopup.open();
   }, 10);
 });
 
