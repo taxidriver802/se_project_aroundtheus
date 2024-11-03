@@ -1,6 +1,6 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
-import Popup from "../components/Popup.js";
+import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
@@ -79,6 +79,34 @@ const config = {
   errorClass: "modal__error_visible",
 };
 
+const selectors = {
+  CardSection: ".cards__list",
+  cardTemplate: ".card-template",
+};
+
+/* const CardSection = new Section(
+  {
+    items: initialCards, // Set initial cards as items
+    renderer: (item) => {
+      const cardEl = new Card(item, selectors.cardTemplate);
+      CardSection.addItem(cardEl.getView());
+    },
+  },
+  selectors.CardSection
+); */
+/* CardSection.renderItems(); */
+
+const CardSection = new Section(
+  {
+    items: initialCards, // Set initial cards as items
+    renderer: (item) => {
+      const cardEl = generateCard(item);
+      CardSection.addItem(cardEl);
+    },
+  },
+  selectors.CardSection
+);
+
 const addFormValidator = new FormValidator(config, addCardFormElement);
 addFormValidator.enableValidation();
 
@@ -133,9 +161,7 @@ const handleImageClick = ({ name, link }) => {
   }, 10);
 };
 
-initialCards.forEach((cardsData) => {
-  createCard(cardsData);
-});
+CardSection.renderItems();
 
 /*---------------------------------------------------------------------*/
 /*                             Functions                               */
@@ -172,7 +198,9 @@ function handleAddCardSubmit(e) {
     link: cardLinkInput.value,
   };
 
-  createCard(cardsData);
+  const cardElement = generateCard(cardsData);
+
+  CardSection.addItem(cardElement);
 
   cardTitleInput.value = "";
   cardLinkInput.value = "";
@@ -182,18 +210,8 @@ function handleAddCardSubmit(e) {
   newCardPopup.close(cardAddModal);
 }
 
-function createCard(cardsData) {
-  const cardElement = generateCard(cardsData);
-  cardList.prepend(cardElement);
-}
-
 function generateCard(cardsData) {
-  const card = new Card(
-    cardsData,
-    "#card-template",
-    handleImageClick,
-    handleOverlay
-  );
+  const card = new Card(cardsData, "#card-template", handleImageClick);
   return card.getView();
 }
 

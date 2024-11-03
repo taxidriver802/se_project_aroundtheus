@@ -7,6 +7,37 @@ export default class Card {
   }
 
   getView() {
+    // Get the template element based on the selector
+    const templateElement = document.querySelector(this._cardSelector);
+
+    // Check if the template exists
+    if (!templateElement) {
+      console.error(
+        `Template element not found for selector: ${this._cardSelector}`
+      );
+      return null; // Exit if the template is not found
+    }
+
+    // Clone the content of the template
+    this._cardElement = templateElement.content
+      .querySelector(".card")
+      .cloneNode(true);
+
+    // Populate the card data
+    this._cardImageElement = this._cardElement.querySelector(".card__image");
+    this._cardTitleEl = this._cardElement.querySelector(".card__title");
+    this._cardImageElement.src = this._link;
+    this._cardImageElement.alt = this._name;
+    this._cardTitleEl.textContent = this._name;
+
+    // Set event listeners
+    this._setEventListeners();
+
+    // Return the card element
+    return this._cardElement;
+  }
+
+  /* getView() {
     // get card view
     this._cardElement = document
       .querySelector(this._cardSelector)
@@ -25,7 +56,7 @@ export default class Card {
 
     // return the card
     return this._cardElement;
-  }
+  } */
 
   _setEventListeners() {
     // .card__like-button
