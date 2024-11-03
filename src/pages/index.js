@@ -84,18 +84,6 @@ const selectors = {
   cardTemplate: ".card-template",
 };
 
-/* const CardSection = new Section(
-  {
-    items: initialCards, // Set initial cards as items
-    renderer: (item) => {
-      const cardEl = new Card(item, selectors.cardTemplate);
-      CardSection.addItem(cardEl.getView());
-    },
-  },
-  selectors.CardSection
-); */
-/* CardSection.renderItems(); */
-
 const CardSection = new Section(
   {
     items: initialCards, // Set initial cards as items
