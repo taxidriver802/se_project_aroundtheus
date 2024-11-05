@@ -1,4 +1,5 @@
 import PopupWithForm from "./PopupWithForm";
+import Popup from "./Popup.js";
 
 export default class UserInfo extends PopupWithForm {
   constructor(infoSelector, setUserInfo, editProfilePopup, popupInstances) {
@@ -17,8 +18,6 @@ export default class UserInfo extends PopupWithForm {
     this._infoSelector.profileDescriptionInput.value =
       this._infoSelector.profileDescription.textContent;
 
-    /* console.log(this._editProfilePopup);
-     */
     return {
       title: this._infoSelector.profileTitle.textContent,
       description: this._infoSelector.profileDescription.textContent,

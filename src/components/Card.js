@@ -37,27 +37,6 @@ export default class Card {
     return this._cardElement;
   }
 
-  /* getView() {
-    // get card view
-    this._cardElement = document
-      .querySelector(this._cardSelector)
-      .content.querySelector(".card")
-      .cloneNode(true);
-
-    // consts
-    this._cardImageElement = this._cardElement.querySelector(".card__image");
-    this._cardTitleEl = this._cardElement.querySelector(".card__title");
-    this._cardImageElement.src = this._link;
-    this._cardImageElement.alt = this._name;
-    this._cardTitleEl.textContent = this._name;
-
-    // set event listeners
-    this._setEventListeners();
-
-    // return the card
-    return this._cardElement;
-  } */
-
   _setEventListeners() {
     // .card__like-button
     this._cardElement
