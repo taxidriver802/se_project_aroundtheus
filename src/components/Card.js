@@ -10,14 +10,6 @@ export default class Card {
     // Get the template element based on the selector
     const templateElement = document.querySelector(this._cardSelector);
 
-    // Check if the template exists
-    if (!templateElement) {
-      console.error(
-        `Template element not found for selector: ${this._cardSelector}`
-      );
-      return null; // Exit if the template is not found
-    }
-
     // Clone the content of the template
     this._cardElement = templateElement.content
       .querySelector(".card")

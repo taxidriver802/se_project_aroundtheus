@@ -1,8 +1,9 @@
 export default class Utils {
-  constructor(generateCard, cardSection, addFormValidator) {
+  constructor(generateCard, cardSection, addFormValidator, closeCallback) {
     this._generateCard = generateCard;
     this._cardSection = cardSection;
     this._addFormValidator = addFormValidator;
+    this._closeCallback = closeCallback;
   }
 
   handleAddCardSubmit(e) {
@@ -30,6 +31,6 @@ export default class Utils {
 
     this._addFormValidator.disableButton();
 
-    cardAddModal.classList.remove("modal_opened");
+    this._closeCallback();
   }
 }

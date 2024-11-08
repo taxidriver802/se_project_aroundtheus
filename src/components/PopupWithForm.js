@@ -2,11 +2,25 @@ import Popup from "./Popup.js";
 import Utils from "./Utils.js";
 
 export default class PopupWithForm extends Popup {
-  constructor({ popupSelector }, generateCard, cardSection, addFormValidator) {
+  constructor(
+    { popupSelector },
+    generateCard,
+    cardSection,
+    addFormValidator,
+    handleProfileEditSubmit
+  ) {
     super({ popupSelector });
+
     this._popupForm = document.querySelector(".js-modal-form");
 
-    this._utils = new Utils(generateCard, cardSection, addFormValidator);
+    this._handleProfileEditSubmit = handleProfileEditSubmit;
+
+    this._utils = new Utils(
+      generateCard,
+      cardSection,
+      addFormValidator,
+      this.close.bind(this)
+    );
   }
 
   close() {

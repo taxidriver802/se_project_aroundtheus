@@ -102,6 +102,9 @@ const newCardPopup = new PopupWithForm(
 
 const editProfilePopup = new PopupWithForm(
   { popupSelector: profileEditModal },
+  null,
+  null,
+  null,
   handleProfileEditSubmit
 );
 

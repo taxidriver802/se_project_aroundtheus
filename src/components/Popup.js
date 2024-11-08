@@ -9,28 +9,29 @@ export default class Popup {
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleOverlayClick = this._handleOverlayClick.bind(this);
     this._profileEditInfo = this._profileEditInfo.bind(this);
+
+    this._handleFormSubmit = (e) => this._utils.handleAddCardSubmit(e);
+    this._handleCloseClick = () => this.close(cardAddModal);
   }
 
   setEventListeners() {
     const cardCloseModal = document.querySelector("#card-close-modal");
-    const cardAddModal = document.querySelector("#card-add-modal");
     const addCardForm = document.querySelector("#add-card-form");
     document.addEventListener("keydown", this._handleEscClose);
     document.addEventListener("click", this._handleOverlayClick);
     document.addEventListener("submit", this._profileEditInfo);
-    addCardForm.addEventListener("submit", (e) =>
-      this._utils.handleAddCardSubmit(e)
-    );
-    cardCloseModal.addEventListener("click", () => this.close(cardAddModal));
+    addCardForm.addEventListener("submit", this._handleFormSubmit);
+    cardCloseModal.addEventListener("click", this._handleCloseClick);
   }
 
   removeEventListener() {
     const cardCloseModal = document.querySelector("#card-close-modal");
-    const cardAddModal = document.querySelector("#card-add-modal");
+    const addCardForm = document.querySelector("#add-card-form");
     document.removeEventListener("keydown", this._handleEscClose);
     document.removeEventListener("click", this._handleOverlayClick);
     document.removeEventListener("submit", this._profileEditInfo);
-    cardCloseModal.removeEventListener("click", () => this.close(cardAddModal));
+    addCardForm.addEventListener("submit", this._handleFormSubmit);
+    cardCloseModal.addEventListener("click", this._handleCloseClick);
   }
 
   open() {
