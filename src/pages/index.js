@@ -97,12 +97,13 @@ const newCardPopup = new PopupWithForm(
   { popupSelector: cardAddModal },
   generateCard,
   CardSection,
-  addFormValidator
+  addFormValidator,
+  null
 );
 
 const editProfilePopup = new PopupWithForm(
   { popupSelector: profileEditModal },
-  null,
+  generateCard,
   null,
   null,
   handleProfileEditSubmit
@@ -121,7 +122,8 @@ const userInfo = new UserInfo(
   infoSelector,
   () => {},
   editProfilePopup,
-  popupInstances
+  popupInstances,
+  generateCard
 );
 
 const handleImageClick = ({ name, link }) => {
@@ -143,7 +145,7 @@ function handleProfileEditSubmit(e) {
   userInfo.setUserInfo(e);
 }
 
-function generateCard(cardsData) {
+export function generateCard(cardsData) {
   const card = new Card(cardsData, "#card-template", handleImageClick);
   return card.getView();
 }

@@ -15,12 +15,19 @@ export default class PopupWithForm extends Popup {
 
     this._handleProfileEditSubmit = handleProfileEditSubmit;
 
-    this._utils = new Utils(
-      generateCard,
-      cardSection,
-      addFormValidator,
-      this.close.bind(this)
-    );
+    if (generateCard && cardSection) {
+      this._utils = new Utils(
+        generateCard,
+        cardSection,
+        addFormValidator,
+        this.close.bind(this)
+      );
+    }
+    this._handleFormSubmit = (e) => {
+      if (this._utils) {
+        this._utils.handleAddCardSubmit(e);
+      }
+    };
   }
 
   close() {

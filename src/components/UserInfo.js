@@ -1,13 +1,19 @@
 import PopupWithForm from "./PopupWithForm";
-import Popup from "./Popup.js";
 
 export default class UserInfo extends PopupWithForm {
-  constructor(infoSelector, setUserInfo, editProfilePopup, popupInstances) {
+  constructor(
+    infoSelector,
+    setUserInfo,
+    editProfilePopup,
+    popupInstances,
+    generateCard
+  ) {
     super(infoSelector);
     this._infoSelector = infoSelector;
     this._setUserInfo = setUserInfo;
     this._editProfilePopup = editProfilePopup;
     this._popupInstances = popupInstances;
+    this._generateCard = generateCard;
   }
 
   getUserInfo() {

@@ -24,7 +24,9 @@ export default class Utils {
 
     const cardElement = this._generateCard(cardsData);
 
-    this._cardSection.addItem(cardElement);
+    if (this._cardSection) {
+      this._cardSection.addItem(cardElement);
+    }
 
     cardTitleInput.value = "";
     cardLinkInput.value = "";

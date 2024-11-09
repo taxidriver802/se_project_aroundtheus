@@ -10,7 +10,12 @@ export default class Popup {
     this._handleOverlayClick = this._handleOverlayClick.bind(this);
     this._profileEditInfo = this._profileEditInfo.bind(this);
 
-    this._handleFormSubmit = (e) => this._utils.handleAddCardSubmit(e);
+    const cardAddModal = document.querySelector("#card-add-modal");
+
+    if (this._utils) {
+      this._handleFormSubmit = (e) => this._utils.handleAddCardSubmit(e);
+    }
+
     this._handleCloseClick = () => this.close(cardAddModal);
   }
 
