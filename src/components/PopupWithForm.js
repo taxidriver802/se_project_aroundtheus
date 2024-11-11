@@ -9,20 +9,13 @@ export default class PopupWithForm extends Popup {
     userInfo
   ) {
     super({ popupSelector });
-
-    this._handleFormSubmit = (e) => {
-      if (this._utils) {
-        this._utils.handleAddCardSubmit(e);
-      }
-    };
+    this.userInfo = userInfo;
 
     this._generateCard = generateCard;
     this._cardSection = cardSection;
     this._addFormValidator = addFormValidator;
 
     this.handleAddCardSubmit = this.handleAddCardSubmit.bind(this);
-
-    this.userInfo = userInfo;
 
     this._profileEditInfo = this._profileEditInfo.bind(this);
     this.handleProfileEditButtonClick =
