@@ -10,9 +10,12 @@ export default class Popup {
     this._handleProfileCloseClick = () => {
       this.close();
     };
-    if (this._utils) {
-      this._handleFormSubmit = (e) => this._utils.handleAddCardSubmit(e);
-    }
+
+    this._handleFormSubmit = null;
+  }
+
+  setFormSubmitHandler(handler) {
+    this._handleFormSubmit = handler;
   }
 
   setEventListeners() {

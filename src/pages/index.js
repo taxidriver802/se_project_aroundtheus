@@ -18,22 +18,7 @@ addFormValidator.enableValidation();
 
 editFormValidator.enableValidation();
 
-/* const infoSelector = {
-  profileTitle: domElements.profileTitle,
-  profileDescription: domElements.profileDescription,
-  profileTitleInput: domElements.profileTitleInput,
-  profileDescriptionInput: domElements.profileDescriptionInput,
-}; */
-
 window.popupInstances = [imagePopup, newCardPopup, editProfilePopup];
-
-/* const userInfo = new UserInfo(
-  infoSelector,
-  () => {},
-  editProfilePopup,
-  popupInstances,
-  generateCard
-); */
 
 const handleImageClick = ({ name, link }) => {
   imagePopup.open({ name, link });
