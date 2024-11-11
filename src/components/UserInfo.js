@@ -1,17 +1,7 @@
-import PopupWithForm from "./PopupWithForm";
-
-export default class UserInfo extends PopupWithForm {
-  constructor(
-    infoSelector,
-    setUserInfo,
-    editProfilePopup,
-    popupInstances,
-    generateCard
-  ) {
-    super(infoSelector);
+export default class UserInfo {
+  constructor(infoSelector, setUserInfo, popupInstances, generateCard) {
     this._infoSelector = infoSelector;
     this._setUserInfo = setUserInfo;
-    this._editProfilePopup = editProfilePopup;
     this._popupInstances = popupInstances;
     this._generateCard = generateCard;
   }
@@ -30,7 +20,7 @@ export default class UserInfo extends PopupWithForm {
     };
   }
 
-  setUserInfo(e) {
+  setUserInfo(e, popupInstance) {
     e.preventDefault();
     // take new user data add it to page
     this._infoSelector.profileTitle.textContent =
@@ -38,11 +28,6 @@ export default class UserInfo extends PopupWithForm {
     this._infoSelector.profileDescription.textContent =
       this._infoSelector.profileDescriptionInput.value;
 
-    this._popupInstances.forEach((element) => {
-      if (element.popupElement.classList.contains("modal_opened")) {
-        //
-        element.close();
-      }
-    });
+    popupInstance.close();
   }
 }

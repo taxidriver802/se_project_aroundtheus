@@ -7,13 +7,9 @@ export default class PopupWithForm extends Popup {
     generateCard,
     cardSection,
     addFormValidator,
-    handleProfileEditSubmit
+    userInfo
   ) {
     super({ popupSelector });
-
-    this._popupForm = document.querySelector(".js-modal-form");
-
-    this._handleProfileEditSubmit = handleProfileEditSubmit;
 
     if (generateCard && cardSection) {
       this._utils = new Utils(
@@ -28,13 +24,29 @@ export default class PopupWithForm extends Popup {
         this._utils.handleAddCardSubmit(e);
       }
     };
+
+    this.userInfo = userInfo;
+
+    this._profileEditInfo = this._profileEditInfo.bind(this);
+    this.handleProfileEditButtonClick =
+      this.handleProfileEditButtonClick.bind(this);
+  }
+
+  _profileEditInfo(e) {
+    const profileEditForm = document.querySelector(
+      "#profile-edit-modal .modal__form"
+    );
+
+    if (e.target === profileEditForm) {
+      this.userInfo.setUserInfo(e, this);
+    }
+  }
+
+  handleProfileEditButtonClick() {
+    this.userInfo.getUserInfo();
   }
 
   close() {
-    // Reset the form before closing
-    if (this._popupForm) {
-      this._popupForm.reset();
-    }
     super.close();
   }
 }

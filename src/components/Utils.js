@@ -28,11 +28,13 @@ export default class Utils {
       this._cardSection.addItem(cardElement);
     }
 
-    cardTitleInput.value = "";
-    cardLinkInput.value = "";
-
     this._addFormValidator.disableButton();
 
     this._closeCallback();
+
+    setTimeout(() => {
+      cardTitleInput.value = "";
+      cardLinkInput.value = "";
+    }, 500);
   }
 }
