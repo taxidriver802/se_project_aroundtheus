@@ -1,5 +1,4 @@
 import Card from "../components/Card.js";
-
 import constants from "../utils/constants.js";
 import instances from "../utils/instances.js";
 import "./index.css";
@@ -55,7 +54,7 @@ domElements.profileAddEditButton.addEventListener("click", () => {
 
 domElements.addNewCardButton.addEventListener("click", () => {
   setTimeout(() => {
-    newCardPopup.open();
+    newCardPopup.open(domElements.addCardForm);
   }, 10);
 });
 

@@ -55,7 +55,6 @@ const editProfilePopup = new PopupWithForm(
   null // Temporary placeholder for userInfo
 );
 
-// Step 2: Now create userInfo
 const userInfo = new UserInfo(infoSelector, () => {}, null, generateCard);
 
 editProfilePopup.userInfo = userInfo;

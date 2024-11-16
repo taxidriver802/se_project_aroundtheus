@@ -48,6 +48,7 @@ const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileCloseModalButton = document.querySelector(
   "#profile-close-modal-button"
 );
+const addCardForm = document.querySelector("#add-card-form");
 
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
@@ -80,6 +81,7 @@ const domElements = {
   popupImageModal,
   modalImageElement,
   popupImageCaption,
+  addCardForm,
 };
 
 const infoSelector = {
