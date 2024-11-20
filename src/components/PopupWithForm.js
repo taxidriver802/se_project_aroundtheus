@@ -3,25 +3,54 @@ import Popup from "./Popup.js";
 export default class PopupWithForm extends Popup {
   constructor(
     { popupSelector },
-    generateCard,
-    cardSection,
-    addFormValidator,
-    userInfo
+    domElements,
+    config,
+    addItemCallback,
+    generateCardCallback
   ) {
     super({ popupSelector });
-    this.userInfo = userInfo;
+    this.config = config;
+    this.domElements = domElements;
 
-    this._generateCard = generateCard;
-    this._cardSection = cardSection;
-    this._addFormValidator = addFormValidator;
+    this.addItemCallback = addItemCallback;
+    this.generateCardCallback = generateCardCallback;
 
     this.handleAddCardSubmit = this.handleAddCardSubmit.bind(this);
+    this.setFormSubmitHandler(this.handleAddCardSubmit);
 
     this._profileEditInfo = this._profileEditInfo.bind(this);
-    this.handleProfileEditButtonClick =
-      this.handleProfileEditButtonClick.bind(this);
+  }
 
-    this.setFormSubmitHandler(this.handleAddCardSubmit);
+  open() {
+    if (this.popupElement.querySelector(".js-modal-container")) {
+      this.popupElement
+        .querySelector(".js-modal-container")
+        .addEventListener("submit", this._profileEditInfo);
+    }
+
+    if (this.popupElement.querySelector("#add-card-form")) {
+      this.popupElement
+        .querySelector("#add-card-form")
+        .addEventListener("submit", this._handleFormSubmit);
+    }
+
+    super.open();
+  }
+
+  closeForm() {
+    if (this.popupElement.querySelector("#profile-modal-form")) {
+      this.popupElement
+        .querySelector("#profile-modal-form")
+        .removeEventListener("submit", this._profileEditInfo);
+    }
+
+    if (this.popupElement.querySelector("#add-card-form")) {
+      this.popupElement
+        .querySelector("#add-card-form")
+        .removeEventListener("submit", this._handleFormSubmit);
+    }
+
+    super.close();
   }
 
   _profileEditInfo(e) {
@@ -29,48 +58,30 @@ export default class PopupWithForm extends Popup {
       "#profile-edit-modal .modal__form"
     );
 
-    if (e.target === profileEditForm) {
-      this.userInfo.setUserInfo(e, this);
-    }
-  }
+    const name = document.querySelector(".modal__title").value;
+    const job = document.querySelector(".modal__description").value;
 
-  handleProfileEditButtonClick() {
-    this.userInfo.getUserInfo();
+    if (e.target === profileEditForm) {
+      this.userInfo.setUserInfo(name, job);
+      this.closeForm();
+    }
   }
 
   handleAddCardSubmit(e) {
-    const cardAddModal = document.querySelector("#card-add-modal");
-    const addCardFormElement = cardAddModal.querySelector(".modal__form");
-    const cardTitleInput = addCardFormElement.querySelector(
-      ".modal__input_type_title"
-    );
-    const cardLinkInput = addCardFormElement.querySelector(
-      ".modal__input_type_link"
-    );
     e.preventDefault();
 
     const cardsData = {
-      name: cardTitleInput.value,
-      link: cardLinkInput.value,
+      name: this.domElements.cardTitleInput.value,
+      link: this.domElements.cardLinkInput.value,
     };
 
-    const cardElement = this._generateCard(cardsData);
+    const cardElement = this.generateCardCallback(cardsData);
 
-    if (this._cardSection) {
-      this._cardSection.addItem(cardElement);
-    }
+    this.addItemCallback(cardElement);
 
-    this._addFormValidator.disableButton();
+    this.closeForm();
 
-    this.close();
-
-    setTimeout(() => {
-      cardTitleInput.value = "";
-      cardLinkInput.value = "";
-    }, 500);
-  }
-
-  close() {
-    super.close();
+    this.domElements.cardTitleInput.value = "";
+    this.domElements.cardLinkInput.value = "";
   }
 }

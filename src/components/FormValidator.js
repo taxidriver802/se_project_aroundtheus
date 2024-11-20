@@ -69,9 +69,10 @@ export default class FormValidator {
     const submitButton = this._formElement.querySelector(
       this._submitButtonSelector
     );
-
-    submitButton.classList.add(this._inactiveButtonClass);
-    submitButton.disabled = true;
+    this._formElement.addEventListener("submit", () => {
+      submitButton.classList.add(this._inactiveButtonClass);
+      submitButton.disabled = true;
+    });
   }
 
   enableValidation() {

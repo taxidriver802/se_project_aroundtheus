@@ -65,6 +65,12 @@ const popupImageModal = document.querySelector("#popup-image");
 
 const modalImageElement = document.querySelector(".modal__image");
 const popupImageCaption = document.querySelector(".modal__caption");
+const cardTitleInput = addCardFormElement.querySelector(
+  ".modal__input_type_title"
+);
+const cardLinkInput = addCardFormElement.querySelector(
+  ".modal__input_type_link"
+);
 
 const domElements = {
   profileAddEditButton,
@@ -82,6 +88,8 @@ const domElements = {
   modalImageElement,
   popupImageCaption,
   addCardForm,
+  cardTitleInput,
+  cardLinkInput,
 };
 
 const infoSelector = {

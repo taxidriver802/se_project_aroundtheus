@@ -1,23 +1,75 @@
 import Card from "../components/Card.js";
 import constants from "../utils/constants.js";
-import instances from "../utils/instances.js";
+import FormValidator from "../components/FormValidator.js";
+import UserInfo from "../components/UserInfo.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
 import "./index.css";
 
-const { domElements } = constants;
-const {
-  addFormValidator,
-  editFormValidator,
-  imagePopup,
-  newCardPopup,
-  editProfilePopup,
-  cardSection,
-} = instances;
+const { domElements, initialCards, selectors, config, infoSelector } =
+  constants;
 
+/*-----------------------------------------------------------------*/
+/*                          Instances                              */
+/*-----------------------------------------------------------------*/
+
+const cardSection = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => {
+      const cardEl = generateCard(item);
+      cardSection.addItem(cardEl);
+    },
+  },
+  selectors.cardSection,
+  domElements,
+  generateCard
+);
+
+const addFormValidator = new FormValidator(
+  config,
+  domElements.addCardFormElement
+);
+
+const editFormValidator = new FormValidator(
+  config,
+  domElements.profileEditForm
+);
+
+const imagePopup = new PopupWithImage(
+  { popupSelector: "#popup-image" },
+  domElements
+);
+
+const newCardPopup = new PopupWithForm(
+  {
+    popupSelector: "#card-add-modal",
+  },
+  domElements,
+  config,
+  (element) => cardSection.addItem(element),
+  generateCard
+);
+
+const editProfilePopup = new PopupWithForm(
+  {
+    popupSelector: "#profile-edit-modal",
+  },
+  domElements,
+  config,
+  null,
+  null
+);
+
+const userInfo = new UserInfo(".profile__title", ".profile__description");
+
+editProfilePopup.userInfo = userInfo;
+
+/*-----------------------------------------------------------------*/
 addFormValidator.enableValidation();
 
 editFormValidator.enableValidation();
-
-window.popupInstances = [imagePopup, newCardPopup, editProfilePopup];
 
 const handleImageClick = ({ name, link }) => {
   imagePopup.open({ name, link });
@@ -26,11 +78,8 @@ const handleImageClick = ({ name, link }) => {
 cardSection.renderItems();
 
 /*---------------------------------------------------------------------*/
-/*                           Event Handlers                            */
+/*                           Event Handler                             */
 /*---------------------------------------------------------------------*/
-export function handleProfileEditSubmit(e) {
-  userInfo.setUserInfo(e, this);
-}
 
 export function generateCard(cardsData) {
   const card = new Card(cardsData, "#card-template", handleImageClick);
@@ -44,18 +93,18 @@ export function generateCard(cardsData) {
 /* add profile edit button */
 
 domElements.profileAddEditButton.addEventListener("click", () => {
-  editProfilePopup.handleProfileEditButtonClick();
-  setTimeout(() => {
-    editProfilePopup.open();
-  }, 10);
+  const userData = userInfo.getUserInfo();
+
+  domElements.profileTitleInput.value = userData.title;
+  domElements.profileDescriptionInput.value = userData.description;
+
+  editProfilePopup.open();
 });
 
 /* add new card button */
 
 domElements.addNewCardButton.addEventListener("click", () => {
-  setTimeout(() => {
-    newCardPopup.open(domElements.addCardForm);
-  }, 10);
+  newCardPopup.open(domElements.addCardForm);
 });
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

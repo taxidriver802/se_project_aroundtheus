@@ -1,8 +1,10 @@
 export default class Section {
-  constructor({ items, renderer }, selector) {
+  constructor({ items, renderer }, selector, domElements, generateCard) {
     this._items = items; // Array of data items
     this._renderer = renderer; // Function to render a single item
     this._container = document.querySelector(selector); // Container for cards
+    this.domElements = domElements;
+    this.generateCard = generateCard;
   }
 
   // Method to render all items on initial load

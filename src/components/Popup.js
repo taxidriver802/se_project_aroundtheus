@@ -1,6 +1,6 @@
 export default class Popup {
   constructor({ popupSelector }) {
-    this.popupElement = popupSelector;
+    this.popupElement = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleOverlayClick = this._handleOverlayClick.bind(this);
     this._handleCloseClick = () => this.close();
@@ -10,42 +10,31 @@ export default class Popup {
     this._handleFormSubmit = handler;
   }
 
-  setEventListeners(element) {
+  setEventListeners() {
     document.addEventListener("keydown", this._handleEscClose);
     document.addEventListener("click", this._handleOverlayClick);
-    document.addEventListener("submit", this._profileEditInfo);
-
-    if (element) {
-      element.addEventListener("submit", this._handleFormSubmit);
-    }
-    this.popupElement.querySelectorAll(".modal__close").forEach((button) => {
-      button.addEventListener("click", this._handleCloseClick);
-    });
+    this.popupElement
+      .querySelector(".modal__close")
+      .addEventListener("click", this._handleCloseClick);
   }
 
-  removeEventListener(element) {
+  removeEventListener() {
     document.removeEventListener("keydown", this._handleEscClose);
     document.removeEventListener("click", this._handleOverlayClick);
-    document.removeEventListener("submit", this._profileEditInfo);
-    if (element) {
-      element.removeEventListener("submit", this._handleFormSubmit);
-    }
-    this.popupElement.querySelectorAll(".modal__close").forEach((button) => {
-      button.removeEventListener("click", this._handleCloseClick);
-    });
+    this.popupElement
+      .querySelector(".modal__close")
+      .removeEventListener("click", this._handleCloseClick);
   }
 
-  open(element) {
+  open() {
     this.popupElement.classList.add("modal_opened");
 
-    setTimeout(() => {
-      this.setEventListeners(element);
-    }, 250);
+    this.setEventListeners();
   }
 
-  close(element) {
+  close() {
     this.popupElement.classList.remove("modal_opened");
-    this.removeEventListener(element);
+    this.removeEventListener();
   }
 
   _handleEscClose(e) {
@@ -55,6 +44,17 @@ export default class Popup {
   }
 
   _handleOverlayClick(e) {
+    const addButton = document.querySelector(".profile__add-button");
+    const editButton = document.querySelector(".profile__edit-button");
+    const imageClick = document.querySelector(".card__image");
+
+    if (
+      e.target === addButton ||
+      e.target === editButton ||
+      e.target === imageClick
+    )
+      return;
+
     const contentContainer = this.popupElement.querySelector(
       ".js-modal-container"
     );
