@@ -46,12 +46,11 @@ export default class Popup {
   _handleOverlayClick(e) {
     const addButton = document.querySelector(".profile__add-button");
     const editButton = document.querySelector(".profile__edit-button");
-    const imageClick = document.querySelector(".card__image");
 
     if (
       e.target === addButton ||
       e.target === editButton ||
-      e.target === imageClick
+      e.target.classList.contains("card__image")
     )
       return;
 
