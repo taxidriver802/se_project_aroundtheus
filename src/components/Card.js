@@ -1,9 +1,10 @@
 export default class Card {
-  constructor({ name, link }, cardSelector, handleImageClick) {
+  constructor({ name, link }, cardSelector, handleImageClick, domElements) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
+    this.domElements = domElements;
   }
 
   getView() {
@@ -23,9 +24,11 @@ export default class Card {
     this._cardTitleEl.textContent = this._name;
 
     // Set event listeners
+
     this._setEventListeners();
 
     // Return the card element
+
     return this._cardElement;
   }
 
@@ -60,5 +63,9 @@ export default class Card {
   _handleDeleteCard() {
     this._cardElement.remove();
     this._cardElement = null;
+  }
+
+  instance() {
+    console.log("work");
   }
 }

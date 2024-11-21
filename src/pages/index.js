@@ -7,8 +7,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import "./index.css";
 
-const { domElements, initialCards, selectors, config, infoSelector } =
-  constants;
+const { domElements, initialCards, selectors, config } = constants;
 
 /*-----------------------------------------------------------------*/
 /*                          Instances                              */
@@ -47,9 +46,7 @@ const newCardPopup = new PopupWithForm(
     popupSelector: "#card-add-modal",
   },
   domElements,
-  config,
-  (element) => cardSection.addItem(element),
-  generateCard
+  config
 );
 
 const editProfilePopup = new PopupWithForm(
@@ -57,9 +54,7 @@ const editProfilePopup = new PopupWithForm(
     popupSelector: "#profile-edit-modal",
   },
   domElements,
-  config,
-  null,
-  null
+  config
 );
 
 const userInfo = new UserInfo(".profile__title", ".profile__description");
@@ -82,8 +77,31 @@ cardSection.renderItems();
 /*---------------------------------------------------------------------*/
 
 export function generateCard(cardsData) {
-  const card = new Card(cardsData, "#card-template", handleImageClick);
+  const card = new Card(
+    cardsData,
+    "#card-template",
+    handleImageClick,
+    domElements
+  );
   return card.getView();
+}
+
+function handleAddCardSubmit(e) {
+  e.preventDefault();
+
+  const cardsData = {
+    name: domElements.cardTitleInput.value,
+    link: domElements.cardLinkInput.value,
+  };
+
+  const cardElement = generateCard(cardsData);
+
+  cardSection.addItem(cardElement);
+
+  newCardPopup.close();
+
+  domElements.cardTitleInput.value = "";
+  domElements.cardLinkInput.value = "";
 }
 
 /*---------------------------------------------------------------------*/
@@ -106,5 +124,9 @@ domElements.profileAddEditButton.addEventListener("click", () => {
 domElements.addNewCardButton.addEventListener("click", () => {
   newCardPopup.open(domElements.addCardForm);
 });
+
+domElements.cardAddModal
+  .querySelector("#add-card-form")
+  .addEventListener("submit", (e) => handleAddCardSubmit(e));
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

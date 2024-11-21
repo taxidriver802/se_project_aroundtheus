@@ -6,10 +6,6 @@ export default class Popup {
     this._handleCloseClick = () => this.close();
   }
 
-  setFormSubmitHandler(handler) {
-    this._handleFormSubmit = handler;
-  }
-
   setEventListeners() {
     document.addEventListener("keydown", this._handleEscClose);
     document.addEventListener("click", this._handleOverlayClick);
@@ -44,26 +40,8 @@ export default class Popup {
   }
 
   _handleOverlayClick(e) {
-    const addButton = document.querySelector(".profile__add-button");
-    const editButton = document.querySelector(".profile__edit-button");
-
-    if (
-      e.target === addButton ||
-      e.target === editButton ||
-      e.target.classList.contains("card__image")
-    )
-      return;
-
-    const contentContainer = this.popupElement.querySelector(
-      ".js-modal-container"
-    );
-
-    if (this.popupElement.classList.contains("modal_opened")) {
-      if (!contentContainer.contains(e.target)) {
-        this.close();
-      } else {
-        e.stopPropagation();
-      }
+    if (e.target.classList.contains("modal_opened")) {
+      this.close();
     }
   }
 }
