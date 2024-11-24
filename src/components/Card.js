@@ -64,8 +64,4 @@ export default class Card {
     this._cardElement.remove();
     this._cardElement = null;
   }
-
-  instance() {
-    console.log("work");
-  }
 }

@@ -45,6 +45,7 @@ const newCardPopup = new PopupWithForm(
   {
     popupSelector: "#card-add-modal",
   },
+  handleAddCardSubmit,
   domElements,
   config
 );
@@ -52,6 +53,11 @@ const newCardPopup = new PopupWithForm(
 const editProfilePopup = new PopupWithForm(
   {
     popupSelector: "#profile-edit-modal",
+  },
+  ({ name, description }) => {
+    domElements.profileTitle.textContent = name;
+    domElements.profileDescription.textContent = description;
+    editProfilePopup.close();
   },
   domElements,
   config
@@ -83,25 +89,26 @@ export function generateCard(cardsData) {
     handleImageClick,
     domElements
   );
+
   return card.getView();
 }
 
-function handleAddCardSubmit(e) {
-  e.preventDefault();
-
-  const cardsData = {
-    name: domElements.cardTitleInput.value,
-    link: domElements.cardLinkInput.value,
+function handleAddCardSubmit({ name, description }) {
+  const newCardInfo = {
+    name: name,
+    link: description,
   };
+  console.log(newCardInfo);
 
-  const cardElement = generateCard(cardsData);
-
+  const cardElement = generateCard(newCardInfo);
   cardSection.addItem(cardElement);
 
   newCardPopup.close();
 
-  domElements.cardTitleInput.value = "";
-  domElements.cardLinkInput.value = "";
+  setTimeout(() => {
+    domElements.cardTitleInput.value = "";
+    domElements.cardLinkInput.value = "";
+  }, 1);
 }
 
 /*---------------------------------------------------------------------*/
@@ -127,6 +134,6 @@ domElements.addNewCardButton.addEventListener("click", () => {
 
 domElements.cardAddModal
   .querySelector("#add-card-form")
-  .addEventListener("submit", (e) => handleAddCardSubmit(e));
+  .addEventListener("submit", (e) => {});
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

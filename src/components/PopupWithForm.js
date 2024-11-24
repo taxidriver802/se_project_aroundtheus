@@ -1,57 +1,54 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
-  constructor({ popupSelector }, domElements, config) {
+  constructor({ popupSelector }, handleFormSubmit, domElements, config) {
     super({ popupSelector });
+    this._handleFormSubmit = handleFormSubmit;
     this.config = config;
     this.domElements = domElements;
 
-    this._profileEditInfo = this._profileEditInfo.bind(this);
+    this._form = this.popupElement.querySelector(".modal__form");
+
+    this._getInputValues = this._getInputValues.bind(this);
   }
 
   open() {
-    if (this.popupElement.id === "profile-edit-modal") {
-      this.popupElement
-        .querySelector(".js-modal-container")
-        .addEventListener("submit", this._profileEditInfo);
-    }
-
-    if (this.popupElement.id === "card-add-modal") {
-      this.popupElement
-        .querySelector("#add-card-form")
-        .addEventListener("submit", this.handleAddCardSubmit);
-    }
+    this.setEventListener();
 
     super.open();
   }
 
   closeForm() {
-    if (this.popupElement.querySelector("#profile-modal-form")) {
-      this.popupElement
-        .querySelector("#profile-modal-form")
-        .removeEventListener("submit", this._profileEditInfo);
-    }
+    /* this._form.reset(); */
 
-    if (this.popupElement.querySelector("#add-card-form")) {
-      this.popupElement
-        .querySelector("#add-card-form")
-        .removeEventListener("submit", this._handleFormSubmit);
-    }
+    this.removeEventListeners();
 
     super.close();
   }
 
-  _profileEditInfo(e) {
-    const profileEditForm = document.querySelector(
-      "#profile-edit-modal .modal__form"
+  setEventListener() {
+    this.popupElement.addEventListener("submit", this._getInputValues);
+  }
+
+  removeEventListeners() {
+    this.popupElement.removeEventListener("submit", this._getInputValues);
+  }
+
+  _getInputValues() {
+    const inputList = Array.from(
+      this.popupElement.querySelectorAll(".modal__input")
     );
 
-    const name = document.querySelector(".modal__title").value;
-    const job = document.querySelector(".modal__description").value;
+    const data = {};
+    inputList.forEach((input) => {
+      data[input.name] = input.value;
+    });
 
-    if (e.target === profileEditForm) {
-      this.userInfo.setUserInfo(name, job);
-      this.closeForm();
-    }
+    // Adjusted to dynamically use keys from data
+
+    this._handleFormSubmit({
+      name: data.name,
+      description: data.description,
+    });
   }
 }
