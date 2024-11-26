@@ -71,7 +71,6 @@ editFormValidator.enableValidation();
 
 const handleImageClick = ({ name, link }) => {
   imagePopup.open({ name, link });
-  imagePopup.setEventListeners();
 };
 
 cardSection.renderItems();
@@ -121,13 +120,17 @@ domElements.profileAddEditButton.addEventListener("click", () => {
 
   editProfilePopup.open();
 });
-editProfilePopup.setEventListeners();
 
 /* add new card button */
 
 domElements.addNewCardButton.addEventListener("click", () => {
   newCardPopup.open();
 });
+
+/* SETEVENTLISTENERS */
+
 newCardPopup.setEventListeners();
+editProfilePopup.setEventListeners();
+imagePopup.setEventListeners();
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
