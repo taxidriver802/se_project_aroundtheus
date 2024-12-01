@@ -20,14 +20,15 @@ const profileImage = document.querySelector(".profile__image");
 const profileImageEditModal = document.querySelector(
   "#profile-image-edit-modal"
 );
-const profileImageEditButton = document.querySelector(
-  "#profileImageEditButton"
-);
 
 const profileImageEditForm = document.querySelector("#profile-image-edit-form");
 const profileimageEditInput = profileImageEditForm.querySelector(
   "#profile-image-edit-input"
 );
+const profileImageEditButton = profileImageEditForm.querySelector(
+  "#profile-image-edit-button"
+);
+
 const profileAddEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileCloseModalButton = document.querySelector(
@@ -40,6 +41,10 @@ const profileDescription = document.querySelector(".profile__description");
 const profileTitleInput = document.querySelector("#profile-title-input");
 const profileDescriptionInput = document.querySelector(
   "#profile-description-input"
+);
+
+const modalSubmitCreateButton = addCardForm.querySelector(
+  "#modal-submit-create-button"
 );
 const profileEditForm = profileEditModal.querySelector(".modal__form");
 
@@ -57,7 +62,6 @@ const modalDeleteCardConfirmation = deleteCardConfirmation.querySelector(
 
 const deleteImageButton = document.querySelector(".card__delete-button-api");
 
-const deleteButton = document.querySelector(".card__delete-button-api");
 const addNewCardButton = document.querySelector(".profile__add-button");
 const cardAddModal = document.querySelector("#card-add-modal");
 const addCardFormElement = cardAddModal.querySelector(".modal__form");
@@ -71,8 +75,15 @@ const cardTitleInput = addCardFormElement.querySelector(
 const cardLinkInput = addCardFormElement.querySelector(
   ".modal__input_type_link"
 );
+const cardDeleteForm = document.querySelector(".modal__api");
+
+const cardDeleteSubmitButton = cardDeleteForm.querySelector(
+  ".card__delete-button-api"
+);
 
 const domElements = {
+  modalSubmitCreateButton,
+  cardDeleteSubmitButton,
   profileimageEditInput,
   profileImageEditForm,
   profileImageEditButton,
@@ -99,7 +110,6 @@ const domElements = {
   cardTitleInput,
   cardLinkInput,
   cardDeleteConfirmButton,
-  deleteButton,
 };
 
 const infoSelector = {

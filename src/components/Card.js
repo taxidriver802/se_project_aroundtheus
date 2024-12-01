@@ -54,6 +54,13 @@ export default class Card {
   }
 
   _setEventListeners() {
+    // .card__delete-button
+    this._cardElement
+      .querySelector(".card__delete-button")
+      .addEventListener("click", () => {
+        this._handleDeleteCallback(this._id, this._cardElement);
+      });
+
     // .card__like-button
     this._cardElement
       .querySelector(".card__like-button")
@@ -61,16 +68,7 @@ export default class Card {
         this._handleLikeCallback(this._id, this._cardElement);
       });
 
-    // .card__delete-button
-
-    this._cardElement
-      .querySelector(".card__delete-button")
-      .addEventListener("click", () => {
-        this._handleDeleteCallback(this._id, this._cardElement);
-      });
-
     // handle image click
-
     this._cardImageElement.addEventListener("click", () => {
       this._handleImageClick({ name: this._name, link: this._link });
     });

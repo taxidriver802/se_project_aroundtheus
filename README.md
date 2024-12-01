@@ -15,7 +15,7 @@ program at TripleTen. It was created using HTML and CSS, based on a figma design
 
   ## Deployed URL
 
-  https://se-project-aroundtheus-bay.vercel.app/
+  https://taxidriver802.github.io/se_project_aroundtheus/
 
   ## Project video
 

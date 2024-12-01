@@ -81,7 +81,7 @@
             id="profile-description-input-error"
           ></span>
 
-          <button class="modal__submit" type="submit">Save</button>
+          <button class="modal__submit" name="Save" type="submit">Save</button>
         </form>
       </div>
     </div>
@@ -120,7 +120,9 @@
           </div>
           <button
             class="modal__submit modal__submit_disabled"
+            id="modal-submit-create-button"
             type="submit"
+            name="Create"
             disabled
           >
             Create
@@ -179,6 +181,9 @@
         </button>
       </div>
     </div>
+
+    <!-- change profile pciture popup -->
+
     <div class="modal" id="profile-image-edit-modal">
       <div class="modal__container modal__api">
         <button
@@ -198,7 +203,8 @@
           />
           <button
             class="modal__submit"
-            id="profileImageEditButton"
+            id="profile-image-edit-button"
+            name="Save"
             type="submit"
           >
             Save
