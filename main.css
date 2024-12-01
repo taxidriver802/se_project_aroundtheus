@@ -443,6 +443,14 @@ template {
   position: relative;
 }
 
+.profile__image:hover {
+  cursor: pointer;
+  opacity: 0.6;
+
+  /* background-image: transparent url(../images/profile-image-edit.svg) center
+    no-repeat; */
+}
+
 .profile__title {
   margin: 0;
   font-family: Inter, Arial, Helvetica, sans-serif;
@@ -829,7 +837,7 @@ template {
   opacity: 0.5;
 }
 
-.modal__delete_card-confirmation {
+.modal__api {
   width: 430px;
 }
 
