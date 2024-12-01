@@ -1,30 +1,3 @@
-const initialCards = [
-  {
-    name: "Yosemite Valley",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
-  },
-  {
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lake-louise.jpg",
-  },
-  {
-    name: "Bald Mountains",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
-  },
-  {
-    name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg",
-  },
-  {
-    name: "Vanoise National Park",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/vanoise.jpg",
-  },
-  {
-    name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
-  },
-];
-
 // Selectors \\
 
 const config = {
@@ -43,6 +16,18 @@ const selectors = {
 
 // DomElements \\
 
+const profileImage = document.querySelector(".profile__image");
+const profileImageEditModal = document.querySelector(
+  "#profile-image-edit-modal"
+);
+const profileImageEditButton = document.querySelector(
+  "#profileImageEditButton"
+);
+
+const profileImageEditForm = document.querySelector("#profile-image-edit-form");
+const profileimageEditInput = profileImageEditForm.querySelector(
+  "#profile-image-edit-input"
+);
 const profileAddEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileCloseModalButton = document.querySelector(
@@ -58,6 +43,21 @@ const profileDescriptionInput = document.querySelector(
 );
 const profileEditForm = profileEditModal.querySelector(".modal__form");
 
+const cardDeleteConfirmButton = document.querySelector(
+  "#modal-card-delete-button"
+);
+
+const deleteCardConfirmation = document.querySelector(
+  "#delete-card-confirmation"
+);
+
+const modalDeleteCardConfirmation = deleteCardConfirmation.querySelector(
+  "#modal-card-delete-button"
+);
+
+const deleteImageButton = document.querySelector(".card__delete-button-api");
+
+const deleteButton = document.querySelector(".card__delete-button-api");
 const addNewCardButton = document.querySelector(".profile__add-button");
 const cardAddModal = document.querySelector("#card-add-modal");
 const addCardFormElement = cardAddModal.querySelector(".modal__form");
@@ -73,6 +73,14 @@ const cardLinkInput = addCardFormElement.querySelector(
 );
 
 const domElements = {
+  profileimageEditInput,
+  profileImageEditForm,
+  profileImageEditButton,
+  profileImageEditModal,
+  profileImage,
+  deleteImageButton,
+  modalDeleteCardConfirmation,
+  deleteCardConfirmation,
   profileAddEditButton,
   profileEditModal,
   profileCloseModalButton,
@@ -90,6 +98,8 @@ const domElements = {
   addCardForm,
   cardTitleInput,
   cardLinkInput,
+  cardDeleteConfirmButton,
+  deleteButton,
 };
 
 const infoSelector = {
@@ -104,7 +114,6 @@ window.domElements = domElements;
 // Exports \\
 
 export default {
-  initialCards,
   config,
   selectors,
   domElements,

@@ -1,10 +1,22 @@
 export default class Card {
-  constructor({ name, link }, cardSelector, handleImageClick, domElements) {
-    this._name = name;
-    this._link = link;
+  constructor(
+    cardsData,
+    cardSelector,
+    handleImageClick,
+    domElements,
+    handleDeleteCallback,
+    handleLikeCallback
+  ) {
+    this._name = cardsData.name;
+    this._link = cardsData.link;
+    this._id = cardsData._id;
+    this.isLiked = cardsData.isLiked;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this.domElements = domElements;
+
+    this._handleDeleteCallback = handleDeleteCallback.bind(this);
+    this._handleLikeCallback = handleLikeCallback.bind(this);
   }
 
   getView() {
@@ -23,6 +35,8 @@ export default class Card {
     this._cardImageElement.alt = this._name;
     this._cardTitleEl.textContent = this._name;
 
+    this._isLiked();
+
     // Set event listeners
 
     this._setEventListeners();
@@ -32,19 +46,27 @@ export default class Card {
     return this._cardElement;
   }
 
+  _isLiked() {
+    this._likeButton = this._cardElement.querySelector(".card__like-button");
+    if (this.isLiked) {
+      this._likeButton.classList.add("card__like-button_active");
+    }
+  }
+
   _setEventListeners() {
     // .card__like-button
     this._cardElement
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
-        this._handleLikeIcon();
+        this._handleLikeCallback(this._id, this._cardElement);
       });
 
     // .card__delete-button
+
     this._cardElement
       .querySelector(".card__delete-button")
       .addEventListener("click", () => {
-        this._handleDeleteCard();
+        this._handleDeleteCallback(this._id, this._cardElement);
       });
 
     // handle image click
@@ -52,16 +74,5 @@ export default class Card {
     this._cardImageElement.addEventListener("click", () => {
       this._handleImageClick({ name: this._name, link: this._link });
     });
-  }
-
-  _handleLikeIcon() {
-    this._cardElement
-      .querySelector(".card__like-button")
-      .classList.toggle("card__like-button_active");
-  }
-
-  _handleDeleteCard() {
-    this._cardElement.remove();
-    this._cardElement = null;
   }
 }
