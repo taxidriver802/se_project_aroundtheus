@@ -20,12 +20,16 @@ export default class Api {
     }).then(this._handleResponse);
   }
 
-  addApiNewCard(data) {
+  addApiNewCard(cardData) {
     return fetch(`${this.baseUrl}/cards`, {
       method: "POST",
       headers: this.headers,
-      body: JSON.stringify(data),
-    }).then(this._handleResponse);
+      body: JSON.stringify(cardData),
+    })
+      .then(this._handleResponse)
+      .then((data) => {
+        return data;
+      });
   }
 
   addApiUserInfo(data) {

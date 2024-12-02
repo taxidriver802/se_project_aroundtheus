@@ -37,6 +37,11 @@ const editFormValidator = new FormValidator(
   domElements.profileEditForm
 );
 
+const profileImageValidator = new FormValidator(
+  config,
+  domElements.profileImageEditForm
+);
+
 const deleteCardPopup = new PopupWithForm({
   popupSelector: "#delete-card-confirmation",
 });
@@ -81,6 +86,8 @@ addFormValidator.enableValidation();
 
 editFormValidator.enableValidation();
 
+profileImageValidator.enableValidation();
+
 const handleImageClick = ({ name, link }) => {
   imagePopup.open({ name, link });
 };
@@ -104,23 +111,38 @@ export function generateCard(cardsData) {
 
 function cardDeleteCallback(_id, _cardElement) {
   deleteCardPopup.open();
-  domElements.cardDeleteConfirmButton.addEventListener(
-    "click",
-    () => {
-      handleDeleteCard(_id, _cardElement);
-      deleteCardPopup.close();
-    },
-    { once: true }
-  );
-}
 
-function handleAddCardSubmit({ name, link }) {
-  const newCardInfo = {
-    name: name,
-    link: link,
+  const confirmDeleteListener = () => {
+    handleDeleteCard(_id, _cardElement);
+
+    deleteCardPopup.close();
+    domElements.cardDeleteConfirmButton.removeEventListener(
+      "click",
+      confirmDeleteListener
+    );
+    deleteCardPopup.setCloseHandler(null);
   };
 
-  const cardElement = generateCard(newCardInfo);
+  const modalCloseHandler = () => {
+    domElements.cardDeleteConfirmButton.removeEventListener(
+      "click",
+      confirmDeleteListener
+    );
+    deleteCardPopup.setCloseHandler(null);
+  };
+
+  domElements.cardDeleteConfirmButton.addEventListener(
+    "click",
+    confirmDeleteListener,
+    { once: true }
+  );
+
+  deleteCardPopup.setCloseHandler(modalCloseHandler);
+}
+
+function handleAddCardSubmit(newCard) {
+  const cardElement = generateCard(newCard);
+
   cardSection.addItem(cardElement);
 
   newCardPopup.close();

@@ -10,6 +10,8 @@ export default class Card {
     this._name = cardsData.name;
     this._link = cardsData.link;
     this._id = cardsData._id;
+    this.cardsData = cardsData;
+
     this.isLiked = cardsData.isLiked;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
@@ -65,6 +67,8 @@ export default class Card {
     this._cardElement
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
+        console.log(this._id, this._cardElement);
+
         this._handleLikeCallback(this._id, this._cardElement);
       });
 

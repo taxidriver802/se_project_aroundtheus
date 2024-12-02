@@ -16,6 +16,6 @@ export default class Section {
 
   // Method to add a single item to the container
   addItem(element) {
-    this._container.append(element);
+    this._container.prepend(element);
   }
 }

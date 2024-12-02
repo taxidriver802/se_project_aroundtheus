@@ -29,6 +29,7 @@ const profileImageEditButton = profileImageEditForm.querySelector(
   "#profile-image-edit-button"
 );
 
+const modalClose = document.querySelector(".modal__close");
 const profileAddEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileCloseModalButton = document.querySelector(
@@ -82,6 +83,7 @@ const cardDeleteSubmitButton = cardDeleteForm.querySelector(
 );
 
 const domElements = {
+  modalClose,
   modalSubmitCreateButton,
   cardDeleteSubmitButton,
   profileimageEditInput,
