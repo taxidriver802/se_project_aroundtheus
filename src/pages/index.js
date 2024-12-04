@@ -45,20 +45,19 @@ const profileImageValidator = new FormValidator(
 const deleteCardPopup = new PopupWithForm({
   popupSelector: "#delete-card-confirmation",
 });
-const profileImagePopup = new PopupWithForm({
-  popupSelector: "#profile-image-edit-modal",
-});
 
-const imagePopup = new PopupWithImage(
-  { popupSelector: "#popup-image" },
-  domElements
+const profileImagePopup = new PopupWithForm(
+  {
+    popupSelector: "#profile-image-edit-modal",
+  },
+  () => {}
 );
 
 const newCardPopup = new PopupWithForm(
   {
     popupSelector: "#card-add-modal",
   },
-  handleAddCardSubmit,
+  handleAddCardSubmitApi,
   domElements,
   config
 );
@@ -67,12 +66,14 @@ const editProfilePopup = new PopupWithForm(
   {
     popupSelector: "#profile-edit-modal",
   },
-  ({ name, description }) => {
-    userInfo.setUserInfo(name, description);
-    editProfilePopup.close();
-  },
+  ({ name, description }) => apiAddUserInfo({ name, description }),
   domElements,
   config
+);
+
+const imagePopup = new PopupWithImage(
+  { popupSelector: "#popup-image" },
+  domElements
 );
 
 const userInfo = new UserInfo(
@@ -103,10 +104,14 @@ export function generateCard(cardsData) {
     handleImageClick,
     domElements,
     () => cardDeleteCallback(cardsData._id, card._cardElement),
-    () => api.toggleLike(cardsData._id, card._cardElement)
+    () => cardLikeCallback(cardsData._id, cardsData.isLiked)
   );
 
   return card.getView();
+}
+
+function cardLikeCallback(_id, isLiked) {
+  api.toggleLike(_id, isLiked);
 }
 
 function cardDeleteCallback(_id, _cardElement) {
@@ -138,18 +143,6 @@ function cardDeleteCallback(_id, _cardElement) {
   );
 
   deleteCardPopup.setCloseHandler(modalCloseHandler);
-}
-
-function handleAddCardSubmit(newCard) {
-  const cardElement = generateCard(newCard);
-
-  cardSection.addItem(cardElement);
-
-  newCardPopup.close();
-
-  setTimeout(() => {
-    domElements.addCardFormElement.reset();
-  }, 1);
 }
 
 function renderLoading(isLoading, buttonElement, loadingText = "Saving...") {
@@ -219,8 +212,8 @@ domElements.addNewCardButton.addEventListener("click", () => {
 
 newCardPopup.setEventListeners();
 editProfilePopup.setEventListeners();
-imagePopup.setEventListeners();
-deleteCardPopup.setEventListeners();
+imagePopup.setEventListener();
+deleteCardPopup.setEventListener();
 profileImagePopup.setEventListeners();
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -267,7 +260,9 @@ function handleDeleteCard(cardId, cardElement) {
     });
 }
 
-domElements.profileEditForm.addEventListener("submit", (event) => {
+function apiAddUserInfo({ name, description }) {
+  userInfo.setUserInfo(name, description);
+  editProfilePopup.close();
   const updatedData = {
     name: domElements.profileTitleInput.value,
     about: domElements.profileDescriptionInput.value,
@@ -285,9 +280,9 @@ domElements.profileEditForm.addEventListener("submit", (event) => {
     });
 
   editProfilePopup.close();
-});
+}
 
-domElements.addCardForm.addEventListener("submit", () => {
+function handleAddCardSubmitApi() {
   renderLoading(true, domElements.modalSubmitCreateButton);
   const newCardData = {
     name: domElements.cardTitleInput.value,
@@ -304,4 +299,16 @@ domElements.addCardForm.addEventListener("submit", () => {
     });
   newCardPopup.close();
   renderLoading(false, domElements.modalSubmitCreateButton);
-});
+}
+
+function handleAddCardSubmit(newCard) {
+  const cardElement = generateCard(newCard);
+
+  cardSection.addItem(cardElement);
+
+  newCardPopup.close();
+
+  setTimeout(() => {
+    domElements.addCardFormElement.reset();
+  }, 1);
+}

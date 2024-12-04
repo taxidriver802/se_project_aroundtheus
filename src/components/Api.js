@@ -6,79 +6,65 @@ export default class Api {
     this._handleResponse = this._handleResponse.bind(this);
   }
 
-  getApiInitialCards() {
-    return fetch(`${this.baseUrl}/cards`, {
-      method: "GET",
+  _request(endpoint, options = {}) {
+    const finalOptions = {
       headers: this.headers,
-    }).then(this._handleResponse);
-  }
-
-  getApiUserInfo() {
-    return fetch(`${this.baseUrl}/users/me`, {
-      method: "GET",
-      headers: this.headers,
-    }).then(this._handleResponse);
-  }
-
-  addApiNewCard(cardData) {
-    return fetch(`${this.baseUrl}/cards`, {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify(cardData),
-    })
-      .then(this._handleResponse)
-      .then((data) => {
-        return data;
-      });
-  }
-
-  addApiUserInfo(data) {
-    return fetch(`${this.baseUrl}/users/me`, {
-      method: "PATCH",
-      headers: this.headers,
-      body: JSON.stringify(data),
-    }).then(this._handleResponse);
-  }
-
-  updateApiUserAvatar(avatarUrl) {
-    return fetch(`${this.baseUrl}/users/me/avatar`, {
-      method: "PATCH",
-      headers: this.headers,
-      body: JSON.stringify({
-        avatar: avatarUrl,
-      }),
-    }).then(this._checkResponse);
-  }
-
-  deleteCard(cardId) {
-    return fetch(`${this.baseUrl}/cards/${cardId}`, {
-      method: "DELETE",
-      headers: this.headers,
-    }).then(this._handleResponse);
-  }
-
-  toggleLike(cardId, cardElement) {
-    const likeButton = cardElement
-      .querySelector(".card__description")
-      .querySelector(".card__like-button");
-
-    const isLiked = likeButton.classList.contains("card__like-button_active");
-    const method = isLiked ? "DELETE" : "PUT";
-
-    if (isLiked) {
-      likeButton.classList.remove("card__like-button_active");
-    } else {
-      likeButton.classList.add("card__like-button_active");
-    }
-
-    return fetch(`${this.baseUrl}/cards/${cardId}/likes`, {
-      method,
-      headers: this.headers,
-    }).then(this._handleResponse);
+      ...options,
+    };
+    const url = `${this.baseUrl}${endpoint}`;
+    return fetch(url, finalOptions).then(this._handleResponse);
   }
 
   _handleResponse(res) {
     if (res.ok) return res.json();
     return Promise.reject(`Error: ${res.status}`);
+  }
+
+  getApiInitialCards() {
+    return this._request("/cards", {
+      method: "GET",
+    });
+  }
+
+  getApiUserInfo() {
+    return this._request("/users/me", {
+      method: "GET",
+    });
+  }
+
+  addApiNewCard(cardData) {
+    return this._request("/cards", {
+      method: "POST",
+      body: JSON.stringify(cardData),
+    });
+  }
+
+  addApiUserInfo(data) {
+    return this._request("/users/me", {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  }
+
+  updateApiUserAvatar(avatarUrl) {
+    return this._request("/users/me/avatar", {
+      method: "PATCH",
+      body: JSON.stringify({
+        avatar: avatarUrl,
+      }),
+    });
+  }
+
+  deleteCard(cardId) {
+    return this._request(`/cards/${cardId}`, {
+      method: "DELETE",
+    });
+  }
+
+  toggleLike(cardId, isLiked) {
+    const method = isLiked ? "DELETE" : "PUT";
+    return this._request(`/cards/${cardId}/likes`, {
+      method,
+    });
   }
 }

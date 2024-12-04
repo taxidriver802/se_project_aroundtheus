@@ -62,6 +62,7 @@ const modalDeleteCardConfirmation = deleteCardConfirmation.querySelector(
 );
 
 const deleteImageButton = document.querySelector(".card__delete-button-api");
+const cardLikeButton = document.querySelector(".card__like-button");
 
 const addNewCardButton = document.querySelector(".profile__add-button");
 const cardAddModal = document.querySelector("#card-add-modal");
@@ -83,6 +84,7 @@ const cardDeleteSubmitButton = cardDeleteForm.querySelector(
 );
 
 const domElements = {
+  cardLikeButton,
   modalClose,
   modalSubmitCreateButton,
   cardDeleteSubmitButton,
