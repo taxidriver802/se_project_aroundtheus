@@ -166,19 +166,21 @@
     <!-- Delete Confirmation Popup -->
 
     <div class="modal" id="delete-card-confirmation">
-      <div class="modal__container modal__api">
+      <div class="modal__container modal__api" id="modal-confirmation-form">
         <button
           class="modal__close modal__close-form"
           id="profile-close-modal-button"
         ></button>
         <h2 class="modal__header">Are you sure?</h2>
-        <button
-          class="modal__submit card__delete-button-api"
-          id="modal-card-delete-button"
-          type="submit"
-        >
-          Yes
-        </button>
+        <form class="modal__form">
+          <button
+            class="modal__submit card__delete-button-api"
+            id="modal-card-delete-button"
+            type="submit"
+          >
+            Yes
+          </button>
+        </form>
       </div>
     </div>
 

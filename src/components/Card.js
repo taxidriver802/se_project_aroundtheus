@@ -58,7 +58,7 @@ export default class Card {
   _setEventListeners() {
     // .card__delete-button
     this.deleteButton.addEventListener("click", () => {
-      this._handleDeleteCallback(this._id, this._cardElement);
+      this._handleDeleteCallback();
     });
 
     // .card__like-button

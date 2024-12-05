@@ -7,6 +7,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import Api from "../components/Api.js";
 import "./index.css";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 
 const { domElements, selectors, config } = constants;
 
@@ -42,15 +43,11 @@ const profileImageValidator = new FormValidator(
   domElements.profileImageEditForm
 );
 
-const deleteCardPopup = new PopupWithForm({
-  popupSelector: "#delete-card-confirmation",
-});
-
 const profileImagePopup = new PopupWithForm(
   {
     popupSelector: "#profile-image-edit-modal",
   },
-  () => {}
+  () => profileImageUpdater()
 );
 
 const newCardPopup = new PopupWithForm(
@@ -69,6 +66,14 @@ const editProfilePopup = new PopupWithForm(
   ({ name, description }) => apiAddUserInfo({ name, description }),
   domElements,
   config
+);
+
+const confirmDeletePopup = new PopupWithConfirmation(
+  {
+    popupSelector: "#delete-card-confirmation",
+  },
+  (id, cardElement) => cardDeleteCallback(id, cardElement),
+  domElements
 );
 
 const imagePopup = new PopupWithImage(
@@ -103,7 +108,7 @@ export function generateCard(cardsData) {
     "#card-template",
     handleImageClick,
     domElements,
-    () => cardDeleteCallback(cardsData._id, card._cardElement),
+    () => confirmDeletePopup.open(cardsData._id, card._cardElement),
     () => cardLikeCallback(cardsData._id, cardsData.isLiked)
   );
 
@@ -115,34 +120,8 @@ function cardLikeCallback(_id, isLiked) {
 }
 
 function cardDeleteCallback(_id, _cardElement) {
-  deleteCardPopup.open();
-
-  const confirmDeleteListener = () => {
-    handleDeleteCard(_id, _cardElement);
-
-    deleteCardPopup.close();
-    domElements.cardDeleteConfirmButton.removeEventListener(
-      "click",
-      confirmDeleteListener
-    );
-    deleteCardPopup.setCloseHandler(null);
-  };
-
-  const modalCloseHandler = () => {
-    domElements.cardDeleteConfirmButton.removeEventListener(
-      "click",
-      confirmDeleteListener
-    );
-    deleteCardPopup.setCloseHandler(null);
-  };
-
-  domElements.cardDeleteConfirmButton.addEventListener(
-    "click",
-    confirmDeleteListener,
-    { once: true }
-  );
-
-  deleteCardPopup.setCloseHandler(modalCloseHandler);
+  handleDeleteCard(_id, _cardElement);
+  confirmDeletePopup.close();
 }
 
 function renderLoading(isLoading, buttonElement, loadingText = "Saving...") {
@@ -158,33 +137,29 @@ function renderLoading(isLoading, buttonElement, loadingText = "Saving...") {
 }
 
 domElements.profileImage.addEventListener("click", () => {
-  profileImageUpdater();
+  profileImagePopup.open();
 });
 
 function profileImageUpdater() {
-  profileImagePopup.open();
-  domElements.profileImageEditForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const avatarUrl = domElements.profileimageEditInput.value;
-    const submitButtonApi = domElements.profileImageEditButton;
+  const avatarUrl = domElements.profileimageEditInput.value;
+  const submitButtonApi = domElements.profileImageEditButton;
 
-    renderLoading(true, submitButtonApi);
+  renderLoading(true, submitButtonApi);
 
-    api
-      .updateApiUserAvatar(avatarUrl)
-      .then((data) => {
-        domElements.profileImage.src = avatarUrl;
-        domElements.profileImageEditModal.classList.remove("modal_opened");
-      })
-      .catch((err) => {
-        console.error("Error updating profile image:", err);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          renderLoading(false, submitButtonApi);
-        }, 100);
-      });
-  });
+  api
+    .updateApiUserAvatar(avatarUrl)
+    .then((data) => {
+      domElements.profileImage.src = avatarUrl;
+      domElements.profileImageEditModal.classList.remove("modal_opened");
+    })
+    .catch((err) => {
+      console.error("Error updating profile image:", err);
+    })
+    .finally(() => {
+      setTimeout(() => {
+        renderLoading(false, submitButtonApi);
+      }, 100);
+    });
 }
 
 /*---------------------------------------------------------------------*/
@@ -213,7 +188,7 @@ domElements.addNewCardButton.addEventListener("click", () => {
 newCardPopup.setEventListeners();
 editProfilePopup.setEventListeners();
 imagePopup.setEventListener();
-deleteCardPopup.setEventListener();
+confirmDeletePopup.setEventListener();
 profileImagePopup.setEventListeners();
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
