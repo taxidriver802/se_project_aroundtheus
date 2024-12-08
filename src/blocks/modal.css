@@ -159,6 +159,10 @@
   opacity: 0.5;
 }
 
+.modal__api {
+  width: 430px;
+}
+
 @media screen and (max-width: 650px) {
   .modal__container {
     padding-left: 22px;

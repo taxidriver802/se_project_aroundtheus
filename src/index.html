@@ -20,19 +20,18 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            src="<%= require('./images/jacques-cousteau.png')%>"
-            alt="Avatar"
-            class="profile__image"
-          />
+          <div class="profile__image-container">
+            <img src="" alt="Avatar" class="profile__image" />
+          </div>
+
           <div class="profile__info">
-            <h1 class="profile__title">Jacques Cousteau</h1>
+            <h1 class="profile__title"></h1>
             <button
               type="button"
               class="profile__edit-button"
               id="profile-edit-button"
             ></button>
-            <p class="profile__description">Explorer</p>
+            <p class="profile__description"></p>
           </div>
           <button type="button" class="profile__add-button"></button>
         </section>
@@ -85,7 +84,14 @@
             id="profile-description-input-error"
           ></span>
 
-          <button class="modal__submit" type="submit">Save</button>
+          <button
+            class="modal__submit"
+            id="modal-submit-api"
+            name="Save"
+            type="submit"
+          >
+            Save
+          </button>
         </form>
       </div>
     </div>
@@ -124,7 +130,9 @@
           </div>
           <button
             class="modal__submit modal__submit_disabled"
+            id="modal-submit-create-button"
             type="submit"
+            name="Create"
             disabled
           >
             Create
@@ -155,7 +163,7 @@
         <img src="" alt="" class="card__image" />
         <button
           type="button"
-          class="card__delete-button"
+          class="card__delete-button card__delete-button-api"
           id="card-delete-button"
         ></button>
 
@@ -165,5 +173,64 @@
         </div>
       </li>
     </template>
+    <!-- Delete Confirmation Popup -->
+
+    <div class="modal" id="delete-card-confirmation">
+      <div class="modal__container modal__api" id="modal-confirmation-form">
+        <button
+          class="modal__close modal__close-form"
+          id="profile-close-modal-button"
+        ></button>
+        <h2 class="modal__header">Are you sure?</h2>
+        <form class="modal__form">
+          <button
+            class="modal__submit card__delete-button-api"
+            id="modal-card-delete-button"
+            type="submit"
+          >
+            Yes
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- change profile pciture popup -->
+
+    <div class="modal" id="profile-image-edit-modal">
+      <div class="modal__container modal__api">
+        <button
+          class="modal__close modal__close-form"
+          id="profile-image-edit-close"
+        ></button>
+        <h2 class="modal__header">Change profile picture</h2>
+        <form class="modal__form" id="profile-image-edit-form">
+          <input
+            type="url"
+            class="modal__input"
+            id="profile-image-edit-input"
+            name="link"
+            placeholder="Link"
+            minlength="2"
+            maxlength="500"
+            required
+          />
+          <div class="form">
+            <span
+              class="modal__error"
+              id="profile-image-edit-input-error"
+            ></span>
+          </div>
+          <button
+            class="modal__submit modal__submit_disabled"
+            id="profile-image-edit-button"
+            name="Save"
+            type="submit"
+            disabled
+          >
+            Save
+          </button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
