@@ -13,6 +13,7 @@ export default class FormValidator {
     const errorMessageEl = this._formElement.querySelector(
       `#${inputElement.id}-error`
     );
+
     inputElement.classList.add(this._inputErrorClass);
     errorMessageEl.textContent = inputElement.validationMessage;
     errorMessageEl.classList.add(this._errorClass);
@@ -69,6 +70,7 @@ export default class FormValidator {
     const submitButton = this._formElement.querySelector(
       this._submitButtonSelector
     );
+
     this._formElement.addEventListener("submit", () => {
       submitButton.classList.add(this._inactiveButtonClass);
       submitButton.disabled = true;

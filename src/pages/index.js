@@ -35,37 +35,37 @@ const addFormValidator = new FormValidator(
 
 const editFormValidator = new FormValidator(
   config,
-  domElements.profileEditForm
+  domElements.profileImageEditForm
 );
 
 const profileImageValidator = new FormValidator(
   config,
   domElements.profileImageEditForm
 );
+profileImageValidator.disableButton();
 
 const profileImagePopup = new PopupWithForm(
   {
     popupSelector: "#profile-image-edit-modal",
   },
-  () => profileImageUpdater()
+  (data) => profileImageUpdater(data),
+  domElements
 );
 
 const newCardPopup = new PopupWithForm(
   {
     popupSelector: "#card-add-modal",
   },
-  handleAddCardSubmitApi,
-  domElements,
-  config
+  (renamedData) => handleAddCardSubmitApi(renamedData),
+  domElements
 );
 
 const editProfilePopup = new PopupWithForm(
   {
     popupSelector: "#profile-edit-modal",
   },
-  ({ name, description }) => apiAddUserInfo({ name, description }),
-  domElements,
-  config
+  (profileData) => apiAddUserInfo(profileData),
+  domElements
 );
 
 const confirmDeletePopup = new PopupWithConfirmation(
@@ -84,6 +84,7 @@ const imagePopup = new PopupWithImage(
 const userInfo = new UserInfo(
   ".profile__title",
   ".profile__description",
+  ".profile__image",
   domElements
 );
 
@@ -109,18 +110,32 @@ export function generateCard(cardsData) {
     handleImageClick,
     domElements,
     () => confirmDeletePopup.open(cardsData._id, card._cardElement),
-    () => cardLikeCallback(cardsData._id, cardsData.isLiked)
+    () => cardLikeCallback(cardsData._id, card.isLiked, card._cardElement)
   );
 
   return card.getView();
 }
 
-function cardLikeCallback(_id, isLiked) {
-  api.toggleLike(_id, isLiked);
+function cardLikeCallback(_id, isLiked, cardElement) {
+  api
+    .toggleLike(_id, isLiked)
+    .then((updatedCardData) => {
+      const likeButton = cardElement.querySelector(".card__like-button");
+
+      if (likeButton) {
+        likeButton.classList.toggle("card__like-button_active");
+      } else {
+        console.error("Like button not found for card with ID:", _id);
+      }
+    })
+    .catch((err) => {
+      console.error("Error toggling like:", err);
+      alert("Unable to toggle like. Please try again.");
+    });
 }
 
-function cardDeleteCallback(_id, _cardElement) {
-  handleDeleteCard(_id, _cardElement);
+function cardDeleteCallback(id, cardElement) {
+  handleDeleteCard(id, cardElement);
   confirmDeletePopup.close();
 }
 
@@ -130,9 +145,7 @@ function renderLoading(isLoading, buttonElement, loadingText = "Saving...") {
   if (isLoading) {
     buttonElement.textContent = loadingText;
   } else {
-    setTimeout(() => {
-      buttonElement.textContent = initialText;
-    }, 500);
+    buttonElement.textContent = initialText;
   }
 }
 
@@ -140,25 +153,21 @@ domElements.profileImage.addEventListener("click", () => {
   profileImagePopup.open();
 });
 
-function profileImageUpdater() {
-  const avatarUrl = domElements.profileimageEditInput.value;
+function profileImageUpdater(data) {
+  const avatarUrl = data.avatar;
   const submitButtonApi = domElements.profileImageEditButton;
-
   renderLoading(true, submitButtonApi);
-
   api
     .updateApiUserAvatar(avatarUrl)
     .then((data) => {
       domElements.profileImage.src = avatarUrl;
-      domElements.profileImageEditModal.classList.remove("modal_opened");
+      profileImagePopup.close();
     })
     .catch((err) => {
       console.error("Error updating profile image:", err);
     })
     .finally(() => {
-      setTimeout(() => {
-        renderLoading(false, submitButtonApi);
-      }, 100);
+      renderLoading(false, submitButtonApi);
     });
 }
 
@@ -172,7 +181,7 @@ domElements.profileAddEditButton.addEventListener("click", () => {
   const userData = userInfo.getUserInfo();
 
   domElements.profileTitleInput.value = userData.title;
-  domElements.profileDescriptionInput.value = userData.description;
+  domElements.profileDescriptionInput.value = userData.about;
 
   editProfilePopup.open();
 });
@@ -207,9 +216,7 @@ const api = new Api(
 api
   .getApiUserInfo()
   .then((user) => {
-    document.querySelector(".profile__title").textContent = user.name;
-    document.querySelector(".profile__description").textContent = user.about;
-    document.querySelector(".profile__image").src = user.avatar;
+    userInfo.setUserInfo(user);
   })
   .catch((err) => {
     console.error("Failed to load user info:", err);
@@ -235,33 +242,29 @@ function handleDeleteCard(cardId, cardElement) {
     });
 }
 
-function apiAddUserInfo({ name, description }) {
-  userInfo.setUserInfo(name, description);
-  editProfilePopup.close();
-  const updatedData = {
-    name: domElements.profileTitleInput.value,
-    about: domElements.profileDescriptionInput.value,
-  };
-
+function apiAddUserInfo(profileData) {
+  renderLoading(true, domElements.modalSubmitApiButton);
   api
-    .addApiUserInfo(updatedData)
+    .addApiUserInfo(profileData)
     .then((updatedUser) => {
-      document.querySelector(".profile__title").textContent = updatedUser.name;
-      document.querySelector(".profile__description").textContent =
-        updatedUser.about;
+      userInfo.setUserInfo(updatedUser);
+    })
+    .then(() => {
+      editProfilePopup.close();
     })
     .catch((err) => {
       console.error("Error updating profile:", err);
+    })
+    .finally(() => {
+      renderLoading(false, domElements.modalSubmitApiButton);
     });
-
-  editProfilePopup.close();
 }
 
-function handleAddCardSubmitApi() {
+function handleAddCardSubmitApi(renamedData) {
   renderLoading(true, domElements.modalSubmitCreateButton);
   const newCardData = {
-    name: domElements.cardTitleInput.value,
-    link: domElements.cardLinkInput.value,
+    name: renamedData.name,
+    link: renamedData.about,
   };
 
   api
@@ -269,11 +272,15 @@ function handleAddCardSubmitApi() {
     .then((newCard) => {
       handleAddCardSubmit(newCard);
     })
+    .then(() => {
+      newCardPopup.close();
+    })
     .catch((err) => {
       console.error("Error adding new card:", err);
+    })
+    .finally(() => {
+      renderLoading(false, domElements.modalSubmitCreateButton);
     });
-  newCardPopup.close();
-  renderLoading(false, domElements.modalSubmitCreateButton);
 }
 
 function handleAddCardSubmit(newCard) {

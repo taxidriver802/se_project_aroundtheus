@@ -63,9 +63,7 @@ export default class Card {
 
     // .card__like-button
     this.likeButton.addEventListener("click", () => {
-      this.likeButton.classList.toggle("card__like-button_active");
-
-      this._handleLikeCallback(this._id, this.isLiked);
+      this._handleLikeCallback(this._id, this.isLiked, this.likeButton);
     });
 
     // handle image click

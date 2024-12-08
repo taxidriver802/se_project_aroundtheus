@@ -20,7 +20,10 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img src="" alt="Avatar" class="profile__image" />
+          <div class="profile__image-container">
+            <img src="" alt="Avatar" class="profile__image" />
+          </div>
+
           <div class="profile__info">
             <h1 class="profile__title"></h1>
             <button
@@ -81,7 +84,14 @@
             id="profile-description-input-error"
           ></span>
 
-          <button class="modal__submit" name="Save" type="submit">Save</button>
+          <button
+            class="modal__submit"
+            id="modal-submit-api"
+            name="Save"
+            type="submit"
+          >
+            Save
+          </button>
         </form>
       </div>
     </div>
@@ -211,10 +221,11 @@
             ></span>
           </div>
           <button
-            class="modal__submit"
+            class="modal__submit modal__submit_disabled"
             id="profile-image-edit-button"
             name="Save"
             type="submit"
+            disabled
           >
             Save
           </button>
