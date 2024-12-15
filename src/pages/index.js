@@ -107,36 +107,17 @@ export function generateCard(cardsData) {
   const card = new Card(
     cardsData,
     "#card-template",
+    api,
     handleImageClick,
     domElements,
-    () => confirmDeletePopup.open(cardsData._id, card._cardElement),
-    () => cardLikeCallback(cardsData._id, card.isLiked, card._cardElement)
+    () => confirmDeletePopup.open(cardsData._id, card._cardElement)
   );
 
   return card.getView();
 }
 
-function cardLikeCallback(_id, isLiked, cardElement) {
-  api
-    .toggleLike(_id, isLiked)
-    .then((updatedCardData) => {
-      const likeButton = cardElement.querySelector(".card__like-button");
-
-      if (likeButton) {
-        likeButton.classList.toggle("card__like-button_active");
-      } else {
-        console.error("Like button not found for card with ID:", _id);
-      }
-    })
-    .catch((err) => {
-      console.error("Error toggling like:", err);
-      alert("Unable to toggle like. Please try again.");
-    });
-}
-
 function cardDeleteCallback(id, cardElement) {
   handleDeleteCard(id, cardElement);
-  confirmDeletePopup.close();
 }
 
 function renderLoading(isLoading, buttonElement, loadingText = "Saving...") {
@@ -236,6 +217,7 @@ function handleDeleteCard(cardId, cardElement) {
     .deleteCard(cardId)
     .then(() => {
       cardElement.remove();
+      confirmDeletePopup.close();
     })
     .catch((err) => {
       console.error("Error deleting card:", err);

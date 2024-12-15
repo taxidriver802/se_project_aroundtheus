@@ -2,10 +2,10 @@ export default class Card {
   constructor(
     cardsData,
     cardSelector,
+    api,
     handleImageClick,
     domElements,
-    handleDeleteCallback,
-    handleLikeCallback
+    handleDeleteCallback
   ) {
     this._name = cardsData.name;
     this._link = cardsData.link;
@@ -13,11 +13,11 @@ export default class Card {
 
     this.isLiked = cardsData.isLiked;
     this._cardSelector = cardSelector;
+    this._api = api;
     this._handleImageClick = handleImageClick;
     this.domElements = domElements;
 
     this._handleDeleteCallback = handleDeleteCallback.bind(this);
-    this._handleLikeCallback = handleLikeCallback.bind(this);
   }
 
   getView() {
@@ -63,12 +63,45 @@ export default class Card {
 
     // .card__like-button
     this.likeButton.addEventListener("click", () => {
-      this._handleLikeCallback(this._id, this.isLiked, this.likeButton);
+      this.toggleLike(this._id, this.isLiked);
     });
 
     // handle image click
     this._cardImageElement.addEventListener("click", () => {
       this._handleImageClick({ name: this._name, link: this._link });
     });
+  }
+
+  toggleLike() {
+    this._api
+      .toggleLike(this._id, this.isLiked)
+      .then((updatedCardData) => {
+        this.isLiked = updatedCardData.isLiked;
+        this._updateLikeButton();
+      })
+      .catch((err) => {
+        console.error("Error toggling like:", err);
+        alert("Unable to toggle like. Please try again.");
+      });
+  }
+
+  _updateLikeButton() {
+    this.likeButton.classList.toggle("card__like-button_active", this.isLiked);
+  }
+
+  deleteCard(e) {
+    e.preventDefault();
+    console.log("work");
+
+    this._api
+      .deleteCard(this._id)
+      .then(() => {
+        cardElement.remove();
+        confirmDeletePopup.close();
+      })
+      .catch((err) => {
+        console.error("Error deleting card:", err);
+        alert("Unable to delete card. Please try again.");
+      });
   }
 }
