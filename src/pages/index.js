@@ -130,7 +130,7 @@ function renderLoading(isLoading, buttonElement, loadingText = "Saving...") {
   }
 }
 
-domElements.profileImage.addEventListener("click", () => {
+domElements.profileImageContainer.addEventListener("click", () => {
   profileImagePopup.open();
 });
 

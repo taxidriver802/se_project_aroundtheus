@@ -17,6 +17,9 @@ const selectors = {
 // DomElements \\
 
 const profileImage = document.querySelector(".profile__image");
+const profileImageContainer = document.querySelector(
+  ".profile__image-container"
+);
 const profileImageEditModal = document.querySelector(
   "#profile-image-edit-modal"
 );
@@ -95,6 +98,7 @@ const modalSubmitApiButton =
   profileModalForm.querySelector("#modal-submit-api");
 
 const domElements = {
+  profileImageContainer,
   modalSubmitApiButton,
   modalConfirmationForm,
   cardDeleteButton,
