@@ -469,6 +469,7 @@ template {
   opacity: 0;
   z-index: 2;
   transition: opacity 0.3s ease;
+  cursor: pointer;
 }
 
 .profile__image-container:hover::after {
