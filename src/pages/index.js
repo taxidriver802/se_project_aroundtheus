@@ -56,7 +56,7 @@ const newCardPopup = new PopupWithForm(
   {
     popupSelector: "#card-add-modal",
   },
-  (renamedData) => handleAddCardSubmitApi(renamedData),
+  (data) => handleAddCardSubmitApi(data),
   domElements
 );
 
@@ -64,7 +64,7 @@ const editProfilePopup = new PopupWithForm(
   {
     popupSelector: "#profile-edit-modal",
   },
-  (profileData) => apiAddUserInfo(profileData),
+  (data) => apiAddUserInfo(data),
   domElements
 );
 
@@ -135,13 +135,13 @@ domElements.profileImageContainer.addEventListener("click", () => {
 });
 
 function profileImageUpdater(data) {
-  const avatarUrl = data.avatar;
+  const avatarUrl = data.link;
   const submitButtonApi = domElements.profileImageEditButton;
   renderLoading(true, submitButtonApi);
   api
     .updateApiUserAvatar(avatarUrl)
     .then((data) => {
-      domElements.profileImage.src = avatarUrl;
+      userInfo.setUserInfo(data);
       profileImagePopup.close();
     })
     .catch((err) => {
@@ -224,12 +224,15 @@ function handleDeleteCard(cardId, cardElement) {
     });
 }
 
-function apiAddUserInfo(profileData) {
+function apiAddUserInfo(data) {
+  data.about = data.description;
+  delete data.description;
+
   renderLoading(true, domElements.modalSubmitApiButton);
   api
-    .addApiUserInfo(profileData)
-    .then((updatedUser) => {
-      userInfo.setUserInfo(updatedUser);
+    .addApiUserInfo(data)
+    .then((updatedData) => {
+      userInfo.setUserInfo(updatedData);
     })
     .then(() => {
       editProfilePopup.close();
@@ -242,11 +245,11 @@ function apiAddUserInfo(profileData) {
     });
 }
 
-function handleAddCardSubmitApi(renamedData) {
+function handleAddCardSubmitApi(data) {
   renderLoading(true, domElements.modalSubmitCreateButton);
   const newCardData = {
-    name: renamedData.name,
-    link: renamedData.about,
+    name: data.name,
+    link: data.description,
   };
 
   api

@@ -30,12 +30,6 @@ export default class PopupWithForm extends Popup {
       data[input.name] = input.value;
     });
 
-    const renamedData = {
-      name: data.name,
-      about: data.description,
-      avatar: data.link,
-    };
-
-    return renamedData;
+    return data; // return the gathered data
   }
 }
