@@ -8,8 +8,8 @@ export default class Section {
   }
 
   // Method to render all items on initial load
-  renderItems() {
-    this._items.forEach((item) => {
+  renderItems(items) {
+    items.forEach((item) => {
       this._renderer(item);
     });
   }
